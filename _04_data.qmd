@@ -1,1 +1,35 @@
 # Data
+
+## Data Ingestion
+
+Our project data was collected via web scraping from Amazon’s public website, focusing on 2 product lines, which are Health and Baby Care. Each product line has around 8-14 subcategories. We scraped the first three pages of search results for each subcategory using Python (requests, BeautifulSoup), saving product-level details.
+
+Amazon organizes its product data across two separate page types, each offering partial information. *The search results page (summary view)* provides lightweight metadata for each product, such as `product_id` and `data_image_index`, which indicates the product’s order of appearance (i.e., its visibility or ranking on the page). However, it lacks detailed product-level attributes. On the other hand, the *product detail page* offers rich metadata for each product, including title, brand, list price, Amazon price, unit price, percentage saving, review count, rating, last month order, flavor, availability, page number, and product category, but *does not contain information about where the product was ranked on the search results page.* 
+
+To overcome this, we scraped both sources separately and merged them using `product_id` as the common key. This allowed us to create a unified dataset that includes both the features (product characteristics) and the target variable (`product_order`) necessary for predictive modeling. @fig-pre-joined shows the two tables before they were joined.
+
+![Structure of scraped tables](images/pre_joined_data.png){#fig-pre-joined}
+
+Due to the state of the data after scraping, it will need extensive cleaning to prepare it for analysis, feature engineering, and modeling. We will cover this further in the [Data Tidying Section](#data-tidying).
+
+## Data Organization
+
+To ensure data consistency, reduce redundancy, and optimize future scalability, we structured our scraped Amazon dataset into a fully normalized schema following Third Normal Form (3NF) principles. For future analysis, these tables will be completely joined. At the core is the products table, uniquely identified by `product_id`, which stores only the title and foreign keys referencing the `brands` and `flavors` tables. These tables decompose repeated textual information into separate entities, avoiding duplication across records and enabling consistent references.
+
+Supporting product metadata is separated into functionally distinct tables. Pricing information such as `list_price`, `amazon_price`, and `unit_price` resides in the `pricing` table. The `order_stats` table captures `product_order` and `page_number`, representing visibility on Amazon’s search results pages. Customer engagement metrics, including `rating`, `review_count`, and `review_content`, are isolated in the `reviews` table, while `market_demand` captures the `last_month_order` volume. Finally, `availability` tracks current stock status as "In Stock" or "Not Available". All auxiliary tables are keyed by `product_id`, enforcing referential integrity and maintaining modularity.
+
+This structure not only adheres to 3NF by ensuring all non-key attributes depend solely on the primary key, but also enables maintainability and scalability for future expansion (e.g., multi-session scraping or historical comparisons). This normalization ensures our project is both analytically sound and architecturally extensible. @fig-3nf displays the structure of the normalized data.
+
+![Data set in Third Normal Form (3NF)](images/normalized_data.png){#fig-3nf}
+
+## Data Tidying
+
+Next, moving to tidying steps where we dealt with columns containing small amounts of missing data, cast data types, and dealt with duplicate information. 
+
+The first thing we did was drop missing values that accounted for a small proportion of any column (<= 5%). This should not have a significant impact on our analysis, but it makes things much simpler moving forward by avoiding NA values causing errors.
+
+Next, we converted data types. This was more involved than simple casting functions since most of the numeric data had strings attached to them. Each situation was unique and required their own use of string slicing, regex, and sometimes splitting columns apart. 
+
+Finally, we removed the duplicate data using a simple `.drop_duplicates()` method, and dropped any columns that became obsolete through the tidying process. @fig-tidy shows a finalized and joined table that will be utilized for analysis and modeling.
+
+![Cleaned and joined table](images/tidy_data.png){#fig-tidy}
