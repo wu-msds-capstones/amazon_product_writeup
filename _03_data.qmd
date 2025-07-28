@@ -30,6 +30,6 @@ The first thing we did was drop missing values that accounted for a small propor
 
 Next, we converted data types. This was more involved than simple casting functions since most of the numeric data had strings attached to them. Each situation was unique and required their own use of string slicing, regex, and sometimes splitting columns apart. 
 
-Finally, we removed the duplicate data using a simple `.drop_duplicates()` method, and dropped any columns that became obsolete through the tidying process. @fig-tidy shows a finalized and joined table that will be utilized for analysis and modeling.
+Finally, we removed the duplicate data using a simple `.drop_duplicates()` method, and dropped any columns that became obsolete through the tidying process. @fig-tidy shows a finalized and joined table that will be utilized for analysis, and then further refined for modeling.
 
-![Cleaned and joined table](images/tidy_data.png){#fig-tidy}
+![Cleaned and joined table](images/tidy_data.png){#fig-tidy width=35%}
