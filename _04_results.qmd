@@ -6,7 +6,7 @@ With the cleaned dataset in place, we began by investigating the distribution of
 
 ![Distribution of target variable](images/target_dist.png){#fig-target-dist}
 
-We then turned to bivariate analysis between `product_order` and the set of numerical features. A Pearson correlation matrix was computed to quantify linear associations, excluding identifiers and non-numeric variables. The results are presented as a bar chart in @fig-raw-corr, which displays the sorted correlation coefficients of each feature with the target variable.
+We then turned to bivariate analysis between `product_order` and the set of numerical features. A Pearson correlation matrix was created to quantify linear relationships, excluding identifiers and non-numeric variables. The results are presented as a bar chart in @fig-raw-corr, which displays the sorted correlation coefficients of each feature with the target variable.
 
 ![Raw numeric feature correlations](images/initial_corr.png){#fig-raw-corr}
 
@@ -14,27 +14,27 @@ Most features exhibited weak to moderate correlations with `product_order`, emph
 
 ## Feature Engineering
 
-The initial correlation analysis revealed that raw features alone were insufficient to explain variation in `product_order`. As such, a number of engineered features were constructed to capture domain-specific patterns and interaction effects.
+The initial correlation analysis revealed that raw features alone were insufficient to explain variation in `product_order`. As such, a number of engineered features were constructed to capture category-specific patterns and interaction effects.
 
-To account for brand influence, we aggregated total `last_month_order` volume at the brand level and merged this back into the dataset as a new column, `brand_popularity`. A log-transformed version, `log_brand_popularity`, handled the skewness inherent in this metric.
+To account for a brand's popularity, we aggregated total `last_month_order` values at the brand level and merged this back into the dataset as a new column, `brand_popularity`. A log-transformed version, `log_brand_popularity`, handled the skew in the metric.
 
-Similarly, a feature interaction was developed to capture the interaction between product rating and review volume. Specifically, this feature multiplies stars by `review_count`, approximating user engagement in a nonlinear fashion.
+Similarly, a feature was developed to capture the interaction between product rating and review volume. This feature multiplies `stars` by `review_count`, attempting to identify the quality of the product alongside the engagement with it. This feature was aptly named `interaction`.
 
-To incorporate relative performance within each product’s category, we generated rank-based features such as `category_rank_price` and `category_rank_stars`, which respectively rank a product’s price and rating compared to its category peers. Another category-specific feature, `last_month_rank`, ranked products by their `last_month_order` within the same category to approximate recent consumer demand.
+To incorporate relative performance within each product’s category, we generated rank-based features such as `category_rank_price` and `category_rank_stars`, which ranka a product’s price and rating compared to other products within it's category. Another category-specific feature, `last_month_rank`, ranked products by their `last_month_order` within the same category to approximate recent consumer demand.
 
-Due to a heavy skew for many products within the data set, we will apply a `log1p` (i.e., log(1 + x), for zero-values) transformation to every column that the function, `skew()`, returns values greater than one. This affects `unit_price`, `review_count`, `last_month_order`, `amazon_price`, `list_price`, `stars`, `percentage_saving`, and `interaction`.
+Due to a heavy skew for many products within the data set, we will apply a `log1p` (i.e., log(1 + x), for the case of zero-values) transformation to every column that the function, `skew()`, returns values greater than one. This affects `unit_price`, `review_count`, `last_month_order`, `amazon_price`, `list_price`, `stars`, `percentage_saving`, and `interaction`.
 
 Now that the columns with more extreme skews have been log-transformed and some features have been created from the categorical data, we can again visualize `product_order`'s bivariate relationships with numerical features, shown in @fig-refined-corr.
 
 ![Engineered feature correlations](images/refined_corr.png){#fig-refined-corr}
 
-Before proceeding to modeling, a final round of feature selection was conducted to eliminate variables that were either redundant, uninformative, or inappropriate for predictive modeling. Columns such as `product_id`, `title`, and `review` were excluded as they serve as unique identifiers or raw textual data not utilized in the present analysis. Similarly, the `flavor`, `rating`, `availability`, and `log_unit_price` columns were dropped due to sparsity, redundancy with engineered features (e.g., stars extracted from rating), or irrelevance to model performance. Since `amazon_price` is equal to the `list_price` with the `percentage_saving` taken off, `log_list_price` was removed from the model. Finally, `brand`, `unit`, and `product_category` were removed as only numeric columns can be included within our model.
+Before proceeding to modeling, a final round of feature selection was conducted to eliminate variables that were either redundant, uninformative, or inappropriate for predictive modeling. Columns such as `product_id`, `title`, and `review` were excluded as they serve as unique identifiers or raw textual data not utilized in the present analysis. Similarly, the `flavor`, `rating`, `availability`, and `log_unit_price` columns were dropped due to sparsity, redundancy with engineered features (e.g., `stars` extracted from `rating`), or irrelevance to model performance. Since `amazon_price` is equal to the `list_price` with the `percentage_saving` taken off, `log_list_price` was removed from the model. Finally, `brand`, `unit`, and `product_category` were removed as only numeric columns can be included within our model.
 
 ### Final Feature Set
 
 The following table summarizes the features included in the final modeling dataset:
 
-| Feature Name | Data Type | Description        |
+| Feature Name | Data Type | Description |
 |--------------------------|-----------|-------------|
 | `page_number`            | `int64`   | Page on which the product appears in search results |
 | `product_order`          | `int64`   | Position of the product on its respective page (target variable) |
@@ -54,3 +54,6 @@ Having thoroughly explored and refined our dataset, we are now equipped to devel
 
 ## A Note on the Correlation
 
+Before proceeding to modeling, it is important to acknowledge the inherent difficulty in predicting `product_order` due to the high variance and weak correlations observed across most features. As illustrated in @fig-high-scatter, even features with theoretically strong relevance, like `log_review_count` or `log_amazon_price`, exhibit substantial noise and dispersion when plotted against the target. This suggests that no model is likely to yield precise predictions. Despite this, the directions of feature relationships with `product_order` align with our intuition, providing some reassurance that the models are finding meaningful patterns. These challenges can reflect the complexity of working with real-world data, where noise and inconsistency are often unavoidable.
+
+![Examples of high scatter within our dataset](images/high_scatter.png){#fig-high-scatter}
