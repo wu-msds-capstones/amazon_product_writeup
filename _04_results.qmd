@@ -1,1 +1,56 @@
 # Results
+
+## Exploratory Data Analysis
+
+With the cleaned dataset in place, we began by investigating the distribution of the target variable, `product_order`, which represents a product's position in the search results. As shown in @fig-target-dist, the distribution is relatively uniform with slight peaks at the beginning and midpoint. This suggests that the dataset does not suffer from extreme imbalance and is suitable for regression modeling.
+
+![Distribution of target variable](images/target_dist.png){#fig-target-dist}
+
+We then turned to bivariate analysis between `product_order` and the set of numerical features. A Pearson correlation matrix was computed to quantify linear associations, excluding identifiers and non-numeric variables. The results are presented as a bar chart in @fig-raw-corr, which displays the sorted correlation coefficients of each feature with the target variable.
+
+![Raw numeric feature correlations](images/initial_corr.png){#fig-raw-corr}
+
+Most features exhibited weak to moderate correlations with `product_order`, emphasizing the need for more sophisticated representations of product visibility and relevance. This insight guided our next phase of feature engineering.
+
+## Feature Engineering
+
+The initial correlation analysis revealed that raw features alone were insufficient to explain variation in `product_order`. As such, a number of engineered features were constructed to capture domain-specific patterns and interaction effects.
+
+To account for brand influence, we aggregated total `last_month_order` volume at the brand level and merged this back into the dataset as a new column, `brand_popularity`. A log-transformed version, `log_brand_popularity`, handled the skewness inherent in this metric.
+
+Similarly, a feature interaction was developed to capture the interaction between product rating and review volume. Specifically, this feature multiplies stars by `review_count`, approximating user engagement in a nonlinear fashion.
+
+To incorporate relative performance within each product’s category, we generated rank-based features such as `category_rank_price` and `category_rank_stars`, which respectively rank a product’s price and rating compared to its category peers. Another category-specific feature, `last_month_rank`, ranked products by their `last_month_order` within the same category to approximate recent consumer demand.
+
+Due to a heavy skew for many products within the data set, we will apply a `log1p` (i.e., log(1 + x), for zero-values) transformation to every column that the function, `skew()`, returns values greater than one. This affects `unit_price`, `review_count`, `last_month_order`, `amazon_price`, `list_price`, `stars`, `percentage_saving`, and `interaction`.
+
+Now that the columns with more extreme skews have been log-transformed and some features have been created from the categorical data, we can again visualize `product_order`'s bivariate relationships with numerical features, shown in @fig-refined-corr.
+
+![Engineered feature correlations](images/refined_corr.png){#fig-refined-corr}
+
+Before proceeding to modeling, a final round of feature selection was conducted to eliminate variables that were either redundant, uninformative, or inappropriate for predictive modeling. Columns such as `product_id`, `title`, and `review` were excluded as they serve as unique identifiers or raw textual data not utilized in the present analysis. Similarly, the `flavor`, `rating`, `availability`, and `log_unit_price` columns were dropped due to sparsity, redundancy with engineered features (e.g., stars extracted from rating), or irrelevance to model performance. Since `amazon_price` is equal to the `list_price` with the `percentage_saving` taken off, `log_list_price` was removed from the model. Finally, `brand`, `unit`, and `product_category` were removed as only numeric columns can be included within our model.
+
+### Final Feature Set
+
+The following table summarizes the features included in the final modeling dataset:
+
+| Feature Name | Data Type | Description        |
+|--------------------------|-----------|-------------|
+| `page_number`            | `int64`   | Page on which the product appears in search results |
+| `product_order`          | `int64`   | Position of the product on its respective page (target variable) |
+| `in_stock`               | `bool`    | Availability status of the product |
+| `category_rank_price`    | `float64` | Product's price rank within its category |
+| `category_rank_stars`    | `float64` | Product's rating rank within its category |
+| `log_interaction`        | `float64` | Interaction term combining rating and review volume |
+| `last_month_rank`        | `float64` | Rank of prior-month orders within the same category |
+| `log_brand_popularity`   | `float64` | Log-transformed total orders per brand last month |
+| `log_review_count`       | `float64` | Log-transformed number of customer reviews |
+| `log_last_month_order`   | `float64` | Log-transformed order count from the prior month |
+| `log_amazon_price`       | `float64` | Log-transformed Amazon sale price |
+| `log_stars`              | `float64` | Log-transformed product star rating |
+| `log_percentage_saving`  | `float64` | Log-transformed percentage discount |
+
+Having thoroughly explored and refined our dataset, we are now equipped to develop predictive models for product_order. The next section introduces our modeling approach and evaluates its effectiveness in capturing the underlying structure of Amazon search rankings.
+
+## A Note on the Correlation
+
