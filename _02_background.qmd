@@ -1,1 +1,21 @@
 # Background
+
+## The Digital Marketplace Landscape
+
+Amazon's dominance in e-commerce has fundamentally transformed how consumers discover products. With over 2.8 billion monthly visits [@dailyvisits], Amazon's search algorithm makes billions of ranking decisions that shape consumer behavior and market dynamics. Research consistently demonstrates that top-positioned products receive at least 30% of all clicks, with engagement dropping precipitously for lower positions [@topresult]. Ranking highly on a page is essential to success on the platform.
+
+## Health & Baby Care: A High-Stakes Category
+
+The Health & Baby Care category presents unique challenges that distinguish it from general merchandise. Products directly impacting health and safety make informed decision-making paramount. When consumers are deciding between products, they often rely on product positioning as a signal of quality and effectiveness. This is especially the case in health product categories, where consumers must navigate complex decisions about safety and efficacy with limited technical expertise, potentially making them susceptible to various marketing influences and positioning cues. This reliance becomes problematic when ranking algorithms prioritize commercial factors over consumer welfare.
+
+If Amazon's results favor products based on profit margins or advertising spend rather than safety or efficacy, it raises ethical questions about platform responsibility. The Federal Trade Commission has increasingly scrutinized how digital platforms present health-related products, recognizing algorithmic bias's potential to influence health outcomes [@ftcdeception].
+
+## The Economics of Product Placement
+
+Amazon's business model creates inherent tensions between stakeholder interests. The company generates revenue through seller fees, sponsored listing advertising, fulfillment services, and sales commissions [@businessmodel]. This multi-revenue model incentivizes favoring certain products potentially independent of their merit.
+
+## Algorithmic Transparency Challenges
+
+Unlike traditional retail where product placement decisions are visible, digital algorithmic placement operates as a "black box." Consumers cannot easily discern why certain products appear first, which becomes particularly concerning in health categories where high placement may be interpreted as an endorsement to their efficacy.
+
+This research attempts to address this gap by providing empirical evidence about product placement factors in a category where transparency matters for public health. It demonstrates methodological approaches for investigating “black box” algorithms using publicly available data while offering practical insights for consumers and sellers navigating Amazon's marketplace.
