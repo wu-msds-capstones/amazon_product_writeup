@@ -1,0 +1,87 @@
+# Results
+
+## Exploratory Data Analysis
+
+With the cleaned dataset in place, we began by investigating the distribution of the target variable, `product_order`, which represents a product's position in the search results. As shown in @fig-target-dist, the distribution is relatively uniform with slight peaks at the beginning and midpoint. This suggests that the dataset does not suffer from extreme imbalance and is suitable for regression modeling.
+
+![Distribution of target variable](images/target_dist.png){#fig-target-dist}
+
+We then turned to bivariate analysis between `product_order` and the set of numerical features. A Pearson correlation matrix was created to quantify linear relationships, excluding identifiers and non-numeric variables. The results are presented as a bar chart in @fig-raw-corr, which displays the sorted correlation coefficients of each feature with the target variable.
+
+![Raw numeric feature correlations](images/initial_corr.png){#fig-raw-corr}
+
+Most features exhibited weak to moderate correlations with `product_order`, emphasizing the need for more sophisticated representations of product visibility and relevance. This insight guided our next phase of feature engineering.
+
+## Feature Engineering
+
+The initial correlation analysis revealed that raw features alone were insufficient to explain variation in `product_order`. As such, a number of engineered features were constructed to capture category-specific patterns and interaction effects.
+
+To account for a brand's popularity, we created a new feature, `log_brand_popularity`, by calculating the total number of orders in the past month for each brand, then applying a log transformation. This results in a normalized feature that can act as a proxy to help the model distinguish between well-known and obscure brands.
+
+Similarly, a feature was developed to capture the interaction between product rating and review volume. This feature multiplies `stars` by `review_count`, attempting to identify the quality of the product alongside the engagement with it. This feature was aptly named `interaction`.
+
+To incorporate relative performance within each product’s category, we generated rank-based features such as `category_rank_price` and `category_rank_stars`, which ranka a product’s price and rating compared to other products within it's category. Another category-specific feature, `last_month_rank`, ranked products by their `last_month_order` within the same category to approximate recent consumer demand.
+
+Due to a heavy skew for many products within the data set, we will apply a `log1p` (i.e., log(1 + x), for the case of zero-values) transformation to every column that the function, `skew()`, returns values greater than one. This affects `unit_price`, `review_count`, `last_month_order`, `amazon_price`, `list_price`, `stars`, `percentage_saving`, and `interaction`.
+
+Now that the columns with more extreme skews have been log-transformed and some features have been created from the categorical data, we can again visualize `product_order`'s bivariate relationships with numerical features, shown in @fig-refined-corr.
+
+![Engineered feature correlations](images/refined_corr.png){#fig-refined-corr}
+
+Before proceeding to modeling, a final round of feature selection was conducted to eliminate variables that were either redundant, uninformative, or inappropriate for predictive modeling. Columns such as `product_id`, `title`, and `review` were excluded as they serve as unique identifiers or raw textual data not utilized in the present analysis. Similarly, the `flavor`, `rating`, `availability`, and `log_unit_price` columns were dropped due to sparsity, redundancy with engineered features (e.g., `stars` extracted from `rating`), or irrelevance to model performance. Since `amazon_price` is equal to the `list_price` with the `percentage_saving` taken off, `log_list_price` was removed from the model. Finally, `brand`, `unit`, and `product_category` were removed as only numeric columns can be included within our model.
+
+### Final Feature Set
+
+The following table summarizes the features included in the final modeling dataset:
+
+| Feature Name | Data Type | Description |
+|--------------------------|-----------|-------------|
+| `page_number` | `int64`   | Page on which the product appears in search results |
+| `product_order` | `int64`   | Position of the product on its respective page (target variable) |
+| `in_stock` | `bool`    | Availability status of the product |
+| `category_rank_price` | `float64` | Product's price rank within its category |
+| `category_rank_stars` | `float64` | Product's rating rank within its category |
+| `log_interaction` | `float64` | Interaction term combining rating and review volume |
+| `last_month_rank` | `float64` | Rank of prior-month orders within the same category |
+| `log_brand_popularity` | `float64` | Log-transformed total orders per brand last month |
+| `log_review_count` | `float64` | Log-transformed number of customer reviews |
+| `log_last_month_order` | `float64` | Log-transformed order count from the prior month |
+| `log_amazon_price` | `float64` | Log-transformed Amazon sale price |
+| `log_stars` | `float64` | Log-transformed product star rating |
+| `log_percentage_saving` | `float64` | Log-transformed percentage discount |
+
+Having explored and refined our dataset, we are now equipped to develop predictive models for product_order. The next section introduces our modeling approach and evaluates its effectiveness in capturing the underlying structure of Amazon search rankings.
+
+## A Note on the Correlation
+
+Before proceeding to modeling, it is important to acknowledge the inherent difficulty in predicting `product_order` due to the high variance and weak correlations observed across most features. As illustrated in @fig-high-scatter, even features with theoretically strong relevance, like `log_review_count` or `log_amazon_price`, exhibit substantial noise and dispersion when plotted against the target. This suggests that no model is likely to yield precise predictions. Despite this, the directions of feature relationships with `product_order` align with our intuition, providing some reassurance that the models are finding meaningful patterns. These challenges can reflect the complexity of working with real-world data, where noise and inconsistency are often unavoidable.
+
+![Examples of high scatter within our dataset](images/high_scatter.png){#fig-high-scatter}
+
+## Regression
+
+### Linear Regression
+
+The linear regression model shows limited predictive power, achieving an R² of only 0.19 on the test set, meaning it explains just 19% of the variance in page number placement. The mean squared error (MSE) of 632.20 further suggests the model struggles to accurately capture the complexity of the underlying ranking algorithm used in Amazon’s search result ordering.
+
+Despite the low performance metrics, the direction and magnitude of the coefficients are largely intuitive, as seen in @fig-basic-feat. For instance, `log_stars`, `in_stock`, and `log_interaction` have strong negative associations with page number, suggesting products with higher ratings, in-stock status, and greater engagement are likely to appear earlier in search results. Features like `log_amazon_price` and `last_month_rank` are positively associated, indicating a mild preference for higher-priced or previously well-performing products. While this model is not sufficient for accurate prediction, it provides interpretable insight into which features tend to correlate with better placement, which can be a useful foundation for further modeling efforts.
+
+![Linear regression model feature impacts.](images/regression_features.png){#fig-basic-feat}
+
+### Lasso Regression
+
+The Lasso regression model performs similarly to the standard linear regression, with an R² of 0.1892 and a root mean squared error (RMSE) of 25.20. Although this still reflects limited predictive power, Lasso provides an added benefit by performing feature selection and basically excluding less relevant coefficients. This helps simplify the model and offers a clearer picture of which features carry the most predictive weight.
+
+Among the remaining features, `log_interaction`, `last_month_rank`, and `log_brand_popularity` were retained with meaningful coefficients, shown in @fig-lasso-feat. Notably, many of the features that were moderately informative in the basic regression model (such as `log_stars`, `log_review_count`, and `in_stock`) were eliminated by the Lasso penalty. This implies that a few core features dominate what little explanatory power exists in the data, while the rest add noise. While the performance did not improve, the Lasso model offers a cleaner and more interpretable feature set for downstream modeling or analysis.
+
+![Linear regression model feature impacts.](images/lasso_features.png){#fig-lasso-feat}
+
+## Classification
+
+### Random Forest Classification
+
+The Random Forest Classifier was applied to predict product page numbers as a multiclass classification task in an attempt to find some predictable behavior within the dataset. The classifier achieved a test accuracy of approximately 41%. While still limited in predictive performance, the Random Forest model offers a balanced classification across all three classes. Class 1 and class 3 had similar F1 scores of 0.47, while class 2 remained more challenging to predict, with an F1 of just 0.28. Overall, the macro-averaged F1 score was 0.41, indicating that the model performs consistently but moderately across the board. The models confusion matrix is shown in @fig-rf-matrix
+
+![Random Forest Classifier Confusion Matrix](images/rf_matrix.png){#fig-rf-matrix}
+
+One of the key strengths of Random Forests is their ability to provide estimates of feature importance. In this case, the most influential features included `log_interaction`, `last_month_rank`, and `log_review_count`, all of which align with earlier findings from the Lasso regression model. Other variables like `log_amazon_price` and category-specific rank metrics also contributed meaningfully. These results reinforce the idea that while prediction remains difficult, certain signals stand out as informative, and ensemble methods like Random Forests are better equipped to capture their complex interactions.
