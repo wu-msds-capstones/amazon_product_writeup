@@ -16,7 +16,7 @@ Most features exhibited weak to moderate correlations with `product_order`, emph
 
 The initial correlation analysis revealed that raw features alone were insufficient to explain variation in `product_order`. As such, a number of engineered features were constructed to capture category-specific patterns and interaction effects.
 
-To account for a brand's popularity, we aggregated total `last_month_order` values at the brand level and merged this back into the dataset as a new column, `brand_popularity`. A log-transformed version, `log_brand_popularity`, handled the skew in the metric.
+To account for a brand's popularity, we created a new feature, `log_brand_popularity`, by calculating the total number of orders in the past month for each brand, then applying a log transformation. This results in a normalized feature that can act as a proxy to help the model distinguish between well-known and obscure brands.
 
 Similarly, a feature was developed to capture the interaction between product rating and review volume. This feature multiplies `stars` by `review_count`, attempting to identify the quality of the product alongside the engagement with it. This feature was aptly named `interaction`.
 
@@ -50,7 +50,7 @@ The following table summarizes the features included in the final modeling datas
 | `log_stars`              | `float64` | Log-transformed product star rating |
 | `log_percentage_saving`  | `float64` | Log-transformed percentage discount |
 
-Having thoroughly explored and refined our dataset, we are now equipped to develop predictive models for product_order. The next section introduces our modeling approach and evaluates its effectiveness in capturing the underlying structure of Amazon search rankings.
+Having explored and refined our dataset, we are now equipped to develop predictive models for product_order. The next section introduces our modeling approach and evaluates its effectiveness in capturing the underlying structure of Amazon search rankings.
 
 ## A Note on the Correlation
 
