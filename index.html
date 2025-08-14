@@ -73,6 +73,7 @@ div.csl-indent {
 <meta name="citation_reference" content="citation_title=How many daily visits does amazon receive?;,citation_author=Red Stag Fulfillment;,citation_publication_date=2025;,citation_cover_date=2025;,citation_year=2025;,citation_fulltext_html_url=https://redstagfulfillment.com/how-many-daily-visits-does-amazon-receive/;">
 <meta name="citation_reference" content="citation_title=Amazon search: How important is the top result?;,citation_author=undefined MarketingCharts;,citation_publication_date=2014;,citation_cover_date=2014;,citation_year=2014;,citation_fulltext_html_url=https://www.marketingcharts.com/industries/retail-and-e-commerce-48541;">
 <meta name="citation_reference" content="citation_title=FTC charges supplement marketer with hijacking ratings and reviews on amazon.com and using them to deceive consumers;,citation_author=Federal Trade Commission;,citation_publication_date=2023;,citation_cover_date=2023;,citation_year=2023;,citation_fulltext_html_url=https://www.ftc.gov/news-events/news/press-releases/2023/02/ftc-charges-supplement-marketer-hijacking-ratings-reviews-amazoncom-using-them-deceive-consumers;">
+<meta name="citation_reference" content="citation_title=The bountiful company refunds;,citation_author=Federal Trade Commission;,citation_publication_date=2025;,citation_cover_date=2025;,citation_year=2025;,citation_fulltext_html_url=https://www.ftc.gov/enforcement/refunds/bountiful-company-refunds;">
 <meta name="citation_reference" content="citation_title=Amazon business model – the ecommerce giant’s revenue streams;,citation_author=Anurag Jain;,citation_publication_date=2024;,citation_cover_date=2024;,citation_year=2024;,citation_fulltext_html_url=https://oyelabs.com/amazon-business-model/;">
 </head>
 
@@ -282,10 +283,7 @@ div.csl-indent {
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#background" id="toc-background" class="nav-link" data-scroll-target="#background">Background</a>
   <ul class="collapse">
-  <li><a href="#the-digital-marketplace-landscape" id="toc-the-digital-marketplace-landscape" class="nav-link" data-scroll-target="#the-digital-marketplace-landscape">The Digital Marketplace Landscape</a></li>
   <li><a href="#health-baby-care-a-high-stakes-category" id="toc-health-baby-care-a-high-stakes-category" class="nav-link" data-scroll-target="#health-baby-care-a-high-stakes-category">Health &amp; Baby Care: A High-Stakes Category</a></li>
-  <li><a href="#the-economics-of-product-placement" id="toc-the-economics-of-product-placement" class="nav-link" data-scroll-target="#the-economics-of-product-placement">The Economics of Product Placement</a></li>
-  <li><a href="#algorithmic-transparency-challenges" id="toc-algorithmic-transparency-challenges" class="nav-link" data-scroll-target="#algorithmic-transparency-challenges">Algorithmic Transparency Challenges</a></li>
   </ul></li>
   <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a>
   <ul class="collapse">
@@ -293,23 +291,16 @@ div.csl-indent {
   <li><a href="#data-organization" id="toc-data-organization" class="nav-link" data-scroll-target="#data-organization">Data Organization</a></li>
   <li><a href="#data-tidying" id="toc-data-tidying" class="nav-link" data-scroll-target="#data-tidying">Data Tidying</a></li>
   </ul></li>
-  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
+  <li><a href="#analysis" id="toc-analysis" class="nav-link" data-scroll-target="#analysis">Analysis</a>
   <ul class="collapse">
   <li><a href="#exploratory-data-analysis" id="toc-exploratory-data-analysis" class="nav-link" data-scroll-target="#exploratory-data-analysis">Exploratory Data Analysis</a></li>
-  <li><a href="#feature-engineering" id="toc-feature-engineering" class="nav-link" data-scroll-target="#feature-engineering">Feature Engineering</a>
-  <ul class="collapse">
-  <li><a href="#final-feature-set" id="toc-final-feature-set" class="nav-link" data-scroll-target="#final-feature-set">Final Feature Set</a></li>
+  <li><a href="#feature-engineering" id="toc-feature-engineering" class="nav-link" data-scroll-target="#feature-engineering">Feature Engineering</a></li>
   </ul></li>
-  <li><a href="#a-note-on-the-correlation" id="toc-a-note-on-the-correlation" class="nav-link" data-scroll-target="#a-note-on-the-correlation">A Note on the Correlation</a></li>
-  <li><a href="#regression" id="toc-regression" class="nav-link" data-scroll-target="#regression">Regression</a>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
   <ul class="collapse">
   <li><a href="#linear-regression" id="toc-linear-regression" class="nav-link" data-scroll-target="#linear-regression">Linear Regression</a></li>
   <li><a href="#lasso-regression" id="toc-lasso-regression" class="nav-link" data-scroll-target="#lasso-regression">Lasso Regression</a></li>
-  </ul></li>
-  <li><a href="#classification" id="toc-classification" class="nav-link" data-scroll-target="#classification">Classification</a>
-  <ul class="collapse">
-  <li><a href="#random-forest-classification" id="toc-random-forest-classification" class="nav-link" data-scroll-target="#random-forest-classification">Random Forest Classification</a></li>
-  </ul></li>
+  <li><a href="#random-forest-regression" id="toc-random-forest-regression" class="nav-link" data-scroll-target="#random-forest-regression">Random Forest Regression</a></li>
   </ul></li>
   <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions">Conclusions</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
@@ -328,46 +319,134 @@ div.csl-indent {
 
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>In the digital marketplace, visibility is currency. When consumers search for health and baby care products on Amazon, the order in which products appear can dramatically influence purchasing decisions, brand perception, and ultimately, consumer welfare. This project investigates the fundamental question: <em>What factors influence the ordering of product search results on Amazon’s site within the Health &amp; Baby Care categories?</em></p>
-<p>The positioning of products in search results represents a complex intersection of commercial interests and consumer behavior. Products that secure top positions naturally receive disproportionate attention, leading to increased traffic, higher conversion rates, and enhanced perceived credibility among consumers. This phenomenon, known as the “position bias effect,” has been extensively documented in search engine research and e-commerce studies, where users demonstrate a strong tendency to click on results appearing higher in the list, regardless of their objective quality or relevance <span class="citation" data-cites="manomanopositionbias kdnuggetspositionbias ecommercepositionbias">(<a href="#ref-manomanopositionbias" role="doc-biblioref">Désigaud 2024</a>; <a href="#ref-kdnuggetspositionbias" role="doc-biblioref">Grebennikov 2023</a>; <a href="#ref-ecommercepositionbias" role="doc-biblioref">Aslanyan and Porwal 2019</a>)</span>.</p>
-<p>Our research focuses specifically on Amazon’s Health &amp; Baby Care categories, where product placement decisions carry heightened significance. Unlike general merchandise, health-related products directly impact consumer well-being, making the transparency and fairness of ranking algorithms a matter of public interest. When parents search for baby formula or adults seek dietary supplements, the products they encounter first may influence decisions that affect their family’s health and safety.</p>
+<p>In the digital marketplace, visibility is currency. When consumers search for health and baby care products on Amazon, the order in which products appear can dramatically influence purchasing decisions, shape how a brand is perceived, and ultimately affect consumer welfare. High placement can create a perception of greater credibility, quality, or popularity-regardless of a product’s actual merits-while lower placement can limit a brand’s market reach. Also, in health-related categories, this can have direct implications for consumer welfare, as ranking can guide choices toward or away from products that impact safety and effectiveness. This project investigates the fundamental question: <em>What factors influence the ordering of product search results on Amazon’s site within the Health &amp; Baby Care categories, and to what extent do those factors align with consumer interests and product quality?</em></p>
+<p>The positioning of products in search results represents a complex intersection of commercial interests and consumer behavior. Products that secure top positions have a tendency to receive disproportionate attention because many consumers focus on what they see first and might not scroll through all available options. This leads to increased traffic, higher conversion rates, and enhanced perceived credibility among consumers. This phenomenon, known as the “position bias effect,” has been extensively documented in search engine research and e-commerce studies such as eBay or ManoMano.fr, where users demonstrate a strong tendency to click on results appearing higher in the list, regardless of their objective quality or relevance <span class="citation" data-cites="manomanopositionbias kdnuggetspositionbias ecommercepositionbias">(<a href="#ref-manomanopositionbias" role="doc-biblioref">Désigaud 2024</a>; <a href="#ref-kdnuggetspositionbias" role="doc-biblioref">Grebennikov 2023</a>; <a href="#ref-ecommercepositionbias" role="doc-biblioref">Aslanyan and Porwal 2019</a>)</span>.</p>
+<p>Our research focuses specifically on Amazon’s Health &amp; Baby Care categories, where product placement decisions carry heightened significance. Unlike general merchandise, health-related products directly impact consumer well-being, making the transparency and fairness of ranking algorithms a matter of public interest and health. When parents search for baby formula or adults seek dietary supplements, the products they encounter first may influence decisions that affect their family’s health and safety.</p>
 <p>This investigation serves multiple stakeholders. For sellers, understanding the mechanics of product visibility provides strategic insights for optimizing their market presence through pricing, branding, and promotional strategies. For consumers, revealing the factors behind product ordering enables more informed purchasing decisions by understanding whether top-ranked products earn their position through merit or algorithmic preferences.</p>
 </section>
 <section id="background" class="level1">
 <h1>Background</h1>
-<section id="the-digital-marketplace-landscape" class="level2">
-<h2 class="anchored" data-anchor-id="the-digital-marketplace-landscape">The Digital Marketplace Landscape</h2>
-<p>Amazon’s dominance in e-commerce has fundamentally transformed how consumers discover products. With over 2.8 billion monthly visits <span class="citation" data-cites="dailyvisits">(<a href="#ref-dailyvisits" role="doc-biblioref">Fulfillment 2025</a>)</span>, Amazon’s search algorithm makes billions of ranking decisions that shape consumer behavior and market dynamics. Research consistently demonstrates that top-positioned products receive at least 30% of all clicks, with engagement dropping precipitously for lower positions <span class="citation" data-cites="topresult">(<a href="#ref-topresult" role="doc-biblioref">MarketingCharts 2014</a>)</span>. Ranking highly on a page is essential to success on the platform.</p>
-</section>
+<p>Amazon’s dominance in e-commerce has fundamentally transformed how consumers discover products. With over 2.8 billion monthly visits <span class="citation" data-cites="dailyvisits">(<a href="#ref-dailyvisits" role="doc-biblioref">Fulfillment 2025</a>)</span>, Amazon’s search algorithm makes billions of ranking decisions that shape consumer behavior and market dynamics. Research demonstrates that top-positioned products receive at least 30% of all clicks, with engagement dropping precipitously for lower positions <span class="citation" data-cites="topresult">(<a href="#ref-topresult" role="doc-biblioref">MarketingCharts 2014</a>)</span>. Ranking highly on a page is essential to success on the platform.</p>
+<div id="fig-top-clicks" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-top-clicks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/amazon_click-likelihood_by_position.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: Amazon click likelihood by position"><img src="images/amazon_click-likelihood_by_position.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-top-clicks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Amazon click likelihood by position
+</figcaption>
+</figure>
+</div>
 <section id="health-baby-care-a-high-stakes-category" class="level2">
 <h2 class="anchored" data-anchor-id="health-baby-care-a-high-stakes-category">Health &amp; Baby Care: A High-Stakes Category</h2>
-<p>The Health &amp; Baby Care category presents unique challenges that distinguish it from general merchandise. Products directly impacting health and safety make informed decision-making paramount. When consumers are deciding between products, they often rely on product positioning as a signal of quality and effectiveness. This is especially the case in health product categories, where consumers must navigate complex decisions about safety and efficacy with limited technical expertise, potentially making them susceptible to various marketing influences and positioning cues. This reliance becomes problematic when ranking algorithms prioritize commercial factors over consumer welfare.</p>
-<p>If Amazon’s results favor products based on profit margins or advertising spend rather than safety or efficacy, it raises ethical questions about platform responsibility. The Federal Trade Commission has increasingly scrutinized how digital platforms present health-related products, recognizing algorithmic bias’s potential to influence health outcomes <span class="citation" data-cites="ftcdeception">(<a href="#ref-ftcdeception" role="doc-biblioref">Commission 2023</a>)</span>.</p>
-</section>
-<section id="the-economics-of-product-placement" class="level2">
-<h2 class="anchored" data-anchor-id="the-economics-of-product-placement">The Economics of Product Placement</h2>
-<p>Amazon’s business model creates inherent tensions between stakeholder interests. The company generates revenue through seller fees, sponsored listing advertising, fulfillment services, and sales commissions <span class="citation" data-cites="businessmodel">(<a href="#ref-businessmodel" role="doc-biblioref">Jain 2024</a>)</span>. This multi-revenue model incentivizes favoring certain products potentially independent of their merit.</p>
-</section>
-<section id="algorithmic-transparency-challenges" class="level2">
-<h2 class="anchored" data-anchor-id="algorithmic-transparency-challenges">Algorithmic Transparency Challenges</h2>
-<p>Unlike traditional retail where product placement decisions are visible, digital algorithmic placement operates as a “black box.” Consumers cannot easily discern why certain products appear first, which becomes particularly concerning in health categories where high placement may be interpreted as an endorsement to their efficacy.</p>
-<p>This research attempts to address this gap by providing empirical evidence about product placement factors in a category where transparency matters for public health. It demonstrates methodological approaches for investigating “black box” algorithms using publicly available data while offering practical insights for consumers and sellers navigating Amazon’s marketplace.</p>
+<p>The Health &amp; Baby Care category presents unique challenges that distinguish it from general merchandise. Products directly impacting health and safety make informed decision-making paramount. When consumers are deciding between products, they often rely on product positioning as a signal of quality and effectiveness because they assume the platform’s ranking reflects merit. This trust can stem from the belief that higher-ranked products have been vetted by the platform or validated by large numbers of purchases and positive reviews. This is especially the case in health product categories, where consumers must navigate complex decisions about safety and efficacy with limited technical expertise, potentially making them susceptible to various marketing influences and positioning cues. This reliance becomes problematic when ranking algorithms prioritize commercial factors over consumer welfare.</p>
+<p>If Amazon’s results favor products based on profit margins or advertising spend rather than safety or efficacy, it raises ethical questions about platform responsibility. Regulators have begun to take notice. The Federal Trade Commission (FTC) has increasingly scrutinized how digital platforms present health-related products. In 2020 and 2021, The Bountiful Company (Bountiful) requested to use the “Amazon’s Choice” and “Best Seller” badges from Amazon after disappointing early sales. An insider at the company noted that the product was poorly received by the public, yet sales spiked after they altered its product pages and secured the badges <span class="citation" data-cites="ftcdeception">(<a href="#ref-ftcdeception" role="doc-biblioref">Commission 2023</a>)</span>. As of April 2025, the FTC has forced Bountiful to provide return payments to consumers and banned the company from using deceptive review tactics <span class="citation" data-cites="ftcaction">(<a href="#ref-ftcaction" role="doc-biblioref">Commission 2025</a>)</span>. While this action represents progress, it is only a small step toward addressing a much larger problem that demands urgent attention.</p>
+<p>Amazon’s business model can create tensions between stakeholder interests because the factors that maximize the platform’s revenue are not always the same as those that best serve consumers or sellers. The company generates revenue through seller fees, sponsored listing advertising, fulfillment services, and sales commissions <span class="citation" data-cites="businessmodel">(<a href="#ref-businessmodel" role="doc-biblioref">Jain 2024</a>)</span>. These diverse revenue streams may incentivize Amazon to give greater visibility to products that contribute more to its bottom line, such as those that purchase ads or use Fulfilled by Amazon, even if those products are not the highest in quality or consumer benefit. This can create friction between commercial priorities and consumer welfare, as well as between sellers who can afford to pay for visibility and those who cannot.</p>
+<p>Amazon’s algorithmic placement operates as a “black box.” Consumers cannot easily discern why certain products appear first, which becomes particularly concerning in health categories where high placement may be interpreted as an endorsement to their efficacy. This research attempts to address this gap by providing empirical evidence about product placement factors in a category where transparency matters for public health. It demonstrates methodological approaches for investigating “black box” algorithms using publicly available data while offering practical insights for consumers and sellers navigating Amazon’s marketplace.</p>
 </section>
 </section>
 <section id="data" class="level1">
 <h1>Data</h1>
+<p>The success of our analysis depends heavily on the quality, completeness, and structure of the underlying data. This section outlines the full data pipeline from ingestion to organization and tidying, detailing how raw, unstructured product information scraped from Amazon was transformed into a clean, structured dataset ready for analysis. We begin by describing our data collection approach and the challenges inherent in scraping from dynamic web sources, followed by the logical organization of the dataset into a normalized schema to ensure consistency and reduce redundancy. Finally, we document the tidying procedures applied to standardize formats, handle missing values, and prepare features for modeling.</p>
 <section id="data-ingestion" class="level2">
 <h2 class="anchored" data-anchor-id="data-ingestion">Data Ingestion</h2>
-<p>Our project data was collected via web scraping from Amazon’s public website, focusing on 2 product lines, which are Health and Baby Care. Each product line has around 8-14 subcategories. We scraped the first three pages of search results for each subcategory using Python (requests, BeautifulSoup), saving product-level details.</p>
-<p>Amazon organizes its product data across two separate page types, each offering partial information. <em>The search results page (summary view)</em> provides lightweight metadata for each product, such as <code>product_id</code> and <code>data_image_index</code>, which indicates the product’s order of appearance (i.e., its visibility or ranking on the page). However, it lacks detailed product-level attributes. On the other hand, the <em>product detail page</em> offers rich metadata for each product, including title, brand, list price, Amazon price, unit price, percentage saving, review count, rating, last month order, flavor, availability, page number, and product category, but <em>does not contain information about where the product was ranked on the search results page.</em></p>
-<p>To overcome this, we scraped both sources separately and merged them using <code>product_id</code> as the common key. This allowed us to create a unified dataset that includes both the features (product characteristics) and the target variable (<code>product_order</code>) necessary for predictive modeling. <a href="#fig-pre-joined" class="quarto-xref">Figure&nbsp;1</a> shows the two tables before they were joined.</p>
+<p>Our project data was collected via web scraping from Amazon’s public website, focusing on 2 product lines: Health and Baby Care. Each product line has around 8-14 subcategories, representing various types of products within the broader categories. We scraped the first three pages of search results for each subcategory using Python (requests, BeautifulSoup), saving product-level details. We limited scraping to the first three pages because this approach ensured we focused on products with meaningful visibility to consumers while reducing noise from rarely viewed listings.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Product Subcategories
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li>Vitamin E Supplements<br>
+</li>
+<li>Baby Powders<br>
+</li>
+<li>Disposable Baby Diapers<br>
+</li>
+<li>Multivitamins<br>
+</li>
+<li>Vitamin D Supplements<br>
+</li>
+<li>Diaper Disposal Bags<br>
+</li>
+<li>Baby Colic &amp; Gas Relief<br>
+</li>
+<li>Children’s Vitamins<br>
+</li>
+<li>CoQ10 Nutritional Supplements<br>
+</li>
+<li>Baby Oils<br>
+</li>
+<li>Sports Nutrition Whey Protein Powders<br>
+</li>
+<li>Joint &amp; Muscle Pain Relief<br>
+</li>
+<li>Vitamin C Supplements<br>
+</li>
+<li>Diaper Wipes &amp; Refills<br>
+</li>
+<li>Baby Lotions<br>
+</li>
+<li>Baby Sun protection<br>
+</li>
+<li>Diaper Creams<br>
+</li>
+<li>Baby Bubble Bath &amp; Cleansers<br>
+</li>
+<li>Baby Shampoo<br>
+</li>
+<li>Nursing Pads<br>
+</li>
+<li>Baby Thermometers<br>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<p>Amazon structures its product information across two distinct page types in its HTML, each containing only part of the data needed for analysis. The search results page (summary view), <a href="#fig-search-results" class="quarto-xref">Figure&nbsp;2</a>, provides lightweight metadata for each product, such as <code>product_id</code> and <code>data_image_index</code>, which indicates the product’s order of appearance (i.e., its visibility or ranking on the page). However, it lacks detailed product-level attributes. On the other hand, the product detail page, <a href="#fig-product-detail" class="quarto-xref">Figure&nbsp;3</a>, offers rich metadata for each product, including title, brand, list price, Amazon price, unit price, percentage saving, review count, rating, last month order, flavor, availability, page number, and product category, but <em>does not contain information about where the product was ranked on the search results page.</em></p>
+<div class="quarto-layout-panel" data-layout="[50,50]">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-search-results" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-search-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/search_results_page.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Product search result page (summary view)"><img src="images/search_results_page.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-search-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Product search result page (summary view)
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-product-detail" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-product-detail-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/product_detail_page.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: Product detail page"><img src="images/product_detail_page.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-product-detail-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Product detail page
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>To overcome this, we scraped both sources separately and merged them using <code>product_id</code> as the common key. Data was collected using incognito mode to reduce personalization and preference bias that could influence rankings. The data was scraped once from the Amazon listings, and we acknowledge that product rankings on Amazon are dynamic and can change at any time; therefore, our dataset represents an informed approximation of typical rankings. This allowed us to create a unified dataset that includes both the features (product characteristics) and the target variable (<code>product_order</code>) necessary for predictive modeling. <a href="#fig-pre-joined" class="quarto-xref">Figure&nbsp;4</a> shows the two tables before they were joined.</p>
 <div id="fig-pre-joined" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-pre-joined-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/pre_joined_data.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: Structure of scraped tables"><img src="images/pre_joined_data.png" class="img-fluid figure-img"></a>
+<a href="images/pre_joined_data.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;4: Raw scraped schema-on-arrival from both Amazon product pages showing the two collected tables and their 1:1 relationship via product_id."><img src="images/pre_joined_data.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pre-joined-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Structure of scraped tables
+Figure&nbsp;4: Raw scraped schema-on-arrival from both Amazon product pages showing the two collected tables and their 1:1 relationship via <code>product_id</code>.
 </figcaption>
 </figure>
 </div>
@@ -375,16 +454,15 @@ Figure&nbsp;1: Structure of scraped tables
 </section>
 <section id="data-organization" class="level2">
 <h2 class="anchored" data-anchor-id="data-organization">Data Organization</h2>
-<p>To ensure data consistency, reduce redundancy, and optimize future scalability, we structured our scraped Amazon dataset into a fully normalized schema following Third Normal Form (3NF) principles. For future analysis, these tables will be completely joined. At the core is the products table, uniquely identified by <code>product_id</code>, which stores only the title and foreign keys referencing the <code>brands</code> and <code>flavors</code> tables. These tables decompose repeated textual information into separate entities, avoiding duplication across records and enabling consistent references.</p>
-<p>Supporting product metadata is separated into functionally distinct tables. Pricing information such as <code>list_price</code>, <code>amazon_price</code>, and <code>unit_price</code> resides in the <code>pricing</code> table. The <code>order_stats</code> table captures <code>product_order</code> and <code>page_number</code>, representing visibility on Amazon’s search results pages. Customer engagement metrics, including <code>rating</code>, <code>review_count</code>, and <code>review_content</code>, are isolated in the <code>reviews</code> table, while <code>market_demand</code> captures the <code>last_month_order</code> volume. Finally, <code>availability</code> tracks current stock status as “In Stock” or “Not Available”. All auxiliary tables are keyed by <code>product_id</code>, enforcing referential integrity and maintaining modularity.</p>
-<p>This structure not only adheres to 3NF by ensuring all non-key attributes depend solely on the primary key, but also enables maintainability and scalability for future expansion (e.g., multi-session scraping or historical comparisons). This normalization ensures our project is both analytically sound and architecturally extensible. <a href="#fig-3nf" class="quarto-xref">Figure&nbsp;2</a> displays the structure of the normalized data.</p>
+<p>To ensure data consistency and reduce redundancy, we structured our scraped Amazon dataset into a fully normalized schema following Third Normal Form (3NF) principles. For future analysis, these tables will be completely joined. At the core is the products table, uniquely identified by <code>product_id</code>, which stores all the unique information pertaining to a specific product and foreign keys referencing the <code>brands</code> and <code>flavors</code> tables. These tables decompose repeated textual information into separate entities, avoiding duplication across records and enabling consistent references.</p>
+<p>This structure not only adheres to 3NF, but also enables maintainability and scalability for future expansion of more products by allowing new product lines or categories to be incorporated without altering the existing schema. This normalization ensures our project is both analytically sound and architecturally extensible. <a href="#fig-3nf" class="quarto-xref">Figure&nbsp;5</a> displays the structure of the normalized data.</p>
 <div id="fig-3nf" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-3nf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/normalized_data.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Data set in Third Normal Form (3NF)"><img src="images/normalized_data.png" class="img-fluid figure-img"></a>
+<a href="images/normalized_data.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;5: Normalized schema showing products referencing brands and flavors (1:N).”"><img src="images/normalized_data.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-3nf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: Data set in Third Normal Form (3NF)
+Figure&nbsp;5: Normalized schema showing <code>products</code> referencing <code>brands</code> and <code>flavors</code> (1:N).”
 </figcaption>
 </figure>
 </div>
@@ -392,230 +470,291 @@ Figure&nbsp;2: Data set in Third Normal Form (3NF)
 <section id="data-tidying" class="level2">
 <h2 class="anchored" data-anchor-id="data-tidying">Data Tidying</h2>
 <p>Next, moving to tidying steps where we dealt with columns containing small amounts of missing data, cast data types, and dealt with duplicate information.</p>
-<p>The first thing we did was drop missing values that accounted for a small proportion of any column (&lt;= 5%). This should not have a significant impact on our analysis, but it makes things much simpler moving forward by avoiding NA values causing errors.</p>
-<p>Next, we converted data types. This was more involved than simple casting functions since most of the numeric data had strings attached to them. Each situation was unique and required their own use of string slicing, regex, and sometimes splitting columns apart.</p>
-<p>Finally, we removed the duplicate data using a simple <code>.drop_duplicates()</code> method, and dropped any columns that became obsolete through the tidying process. <a href="#fig-tidy" class="quarto-xref">Figure&nbsp;3</a> shows a finalized and joined table that will be utilized for analysis, and then further refined for modeling.</p>
-<div id="fig-tidy" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-tidy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/tidy_data.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: Cleaned and joined table"><img src="images/tidy_data.png" class="img-fluid figure-img" style="width:35.0%"></a>
+<p>The first thing we did was drop missing values that accounted for a small proportion of any column (&lt;= 5%). This should not have a significant impact on our analysis as only around 100 rows were dropped, but it makes things much simpler moving forward by avoiding NA values causing errors.</p>
+<p>We then standardize data types for numerical columns by converting price strings into floats, strip currency symbols, convert percentage strings into decimal fractions, parse review counts into integers, and extract numeric ratings from text-based star ratings. We also split the <code>unit_price</code> column into two fields: <code>unit</code> and numeric <code>unit_price</code>. The <code>unit</code> column now uses standardized unit abbreviations (like “oz” to “ounce”). The <code>last_month_order</code> field is converted to an integer, interpreting shorthand like “K” for thousands, and availability is transformed into a Boolean flag (<code>in_stock</code>).</p>
+<p>Next, we handle missing data. For <code>last_month_order</code>, missing values are imputed using a KNN (k-nearest neighbors) approach, chosen for its ability to use similar products’ attributes to estimate missing values without imposing strict parametric assumptions. We leveraged related variables like <code>amazon_price</code>, <code>stars</code>, and <code>review_count</code> to estimate plausible values. This involves scaling the numeric features for imputation, running the KNNImputer, and then inverse-scaling to restore original units. We also apply logical fill rules. For instance, if <code>amazon_price</code> is missing, it is set equal to <code>list_price</code>, and if there is no list price but also no savings, it infers that <code>list_price</code> equals <code>amazon_price</code>. If a product has no <code>percentage_saving</code>, it is set to zero. Missing <code>brand</code> entries are labeled “unknown,” missing <code>unit</code> entries get “no_unit,” and missing <code>unit_price</code> values are set to zero.</p>
+<p>Finally, we cleaned up the dataset by removing duplicate rows, dropping obsolete or unnecessary columns that were unused in modeling (like <code>flavor</code>, <code>rating</code>, <code>availability</code>, <code>product_id</code>, and <code>review</code>), and standardizing <code>product_category</code> to lowercase with underscores instead of spaces. The result, shown in <a href="#fig-tidy" class="quarto-xref">Figure&nbsp;6</a>, is a dataset with consistent data types, minimal missingness, and ready-to-use numerical and categorical fields suitable for downstream modeling or analysis.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tidy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: Cleaned and joined table
-</figcaption>
-</figure>
+<div class="callout-title-container flex-fill">
+Finalized Variable Definitions
 </div>
-</section>
-</section>
-<section id="results" class="level1">
-<h1>Results</h1>
-<section id="exploratory-data-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory Data Analysis</h2>
-<p>With the cleaned dataset in place, we began by investigating the distribution of the target variable, <code>product_order</code>, which represents a product’s position in the search results. As shown in <a href="#fig-target-dist" class="quarto-xref">Figure&nbsp;4</a>, the distribution is relatively uniform with slight peaks at the beginning and midpoint. This suggests that the dataset does not suffer from extreme imbalance and is suitable for regression modeling.</p>
-<div id="fig-target-dist" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-target-dist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/target_dist.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;4: Distribution of target variable"><img src="images/target_dist.png" class="img-fluid figure-img"></a>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-target-dist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: Distribution of target variable
-</figcaption>
-</figure>
-</div>
-<p>We then turned to bivariate analysis between <code>product_order</code> and the set of numerical features. A Pearson correlation matrix was created to quantify linear relationships, excluding identifiers and non-numeric variables. The results are presented as a bar chart in <a href="#fig-raw-corr" class="quarto-xref">Figure&nbsp;5</a>, which displays the sorted correlation coefficients of each feature with the target variable.</p>
-<div id="fig-raw-corr" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-raw-corr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/initial_corr.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;5: Raw numeric feature correlations"><img src="images/initial_corr.png" class="img-fluid figure-img"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-raw-corr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5: Raw numeric feature correlations
-</figcaption>
-</figure>
-</div>
-<p>Most features exhibited weak to moderate correlations with <code>product_order</code>, emphasizing the need for more sophisticated representations of product visibility and relevance. This insight guided our next phase of feature engineering.</p>
-</section>
-<section id="feature-engineering" class="level2">
-<h2 class="anchored" data-anchor-id="feature-engineering">Feature Engineering</h2>
-<p>The initial correlation analysis revealed that raw features alone were insufficient to explain variation in <code>product_order</code>. As such, a number of engineered features were constructed to capture category-specific patterns and interaction effects.</p>
-<p>To account for a brand’s popularity, we created a new feature, <code>log_brand_popularity</code>, by calculating the total number of orders in the past month for each brand, then applying a log transformation. This results in a normalized feature that can act as a proxy to help the model distinguish between well-known and obscure brands.</p>
-<p>Similarly, a feature was developed to capture the interaction between product rating and review volume. This feature multiplies <code>stars</code> by <code>review_count</code>, attempting to identify the quality of the product alongside the engagement with it. This feature was aptly named <code>interaction</code>.</p>
-<p>To incorporate relative performance within each product’s category, we generated rank-based features such as <code>category_rank_price</code> and <code>category_rank_stars</code>, which ranka a product’s price and rating compared to other products within it’s category. Another category-specific feature, <code>last_month_rank</code>, ranked products by their <code>last_month_order</code> within the same category to approximate recent consumer demand.</p>
-<p>Due to a heavy skew for many products within the data set, we will apply a <code>log1p</code> (i.e., log(1 + x), for the case of zero-values) transformation to every column that the function, <code>skew()</code>, returns values greater than one. This affects <code>unit_price</code>, <code>review_count</code>, <code>last_month_order</code>, <code>amazon_price</code>, <code>list_price</code>, <code>stars</code>, <code>percentage_saving</code>, and <code>interaction</code>.</p>
-<p>Now that the columns with more extreme skews have been log-transformed and some features have been created from the categorical data, we can again visualize <code>product_order</code>’s bivariate relationships with numerical features, shown in <a href="#fig-refined-corr" class="quarto-xref">Figure&nbsp;6</a>.</p>
-<div id="fig-refined-corr" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-refined-corr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/refined_corr.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;6: Engineered feature correlations"><img src="images/refined_corr.png" class="img-fluid figure-img"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-refined-corr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6: Engineered feature correlations
-</figcaption>
-</figure>
-</div>
-<p>Before proceeding to modeling, a final round of feature selection was conducted to eliminate variables that were either redundant, uninformative, or inappropriate for predictive modeling. Columns such as <code>product_id</code>, <code>title</code>, and <code>review</code> were excluded as they serve as unique identifiers or raw textual data not utilized in the present analysis. Similarly, the <code>flavor</code>, <code>rating</code>, <code>availability</code>, and <code>log_unit_price</code> columns were dropped due to sparsity, redundancy with engineered features (e.g., <code>stars</code> extracted from <code>rating</code>), or irrelevance to model performance. Since <code>amazon_price</code> is equal to the <code>list_price</code> with the <code>percentage_saving</code> taken off, <code>log_list_price</code> was removed from the model. Finally, <code>brand</code>, <code>unit</code>, and <code>product_category</code> were removed as only numeric columns can be included within our model.</p>
-<section id="final-feature-set" class="level3">
-<h3 class="anchored" data-anchor-id="final-feature-set">Final Feature Set</h3>
-<p>The following table summarizes the features included in the final modeling dataset:</p>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <table class="caption-top table">
 <colgroup>
-<col style="width: 52%">
-<col style="width: 22%">
-<col style="width: 26%">
+<col style="width: 45%">
+<col style="width: 54%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>Feature Name</th>
-<th>Data Type</th>
-<th>Description</th>
+<th>Variable</th>
+<th>Definition</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>page_number</code></td>
-<td><code>int64</code></td>
-<td>Page on which the product appears in search results</td>
+<td><strong>product_id</strong></td>
+<td>Unique identifier for each product.</td>
 </tr>
 <tr class="even">
-<td><code>product_order</code></td>
-<td><code>int64</code></td>
-<td>Position of the product on its respective page (target variable)</td>
+<td><strong>title</strong></td>
+<td>Full product title as displayed on the product detail page.</td>
 </tr>
 <tr class="odd">
-<td><code>in_stock</code></td>
-<td><code>bool</code></td>
-<td>Availability status of the product</td>
+<td><strong>list_price</strong></td>
+<td>Manufacturer’s suggested retail price (MSRP) shown on Amazon.</td>
 </tr>
 <tr class="even">
-<td><code>category_rank_price</code></td>
-<td><code>float64</code></td>
-<td>Product’s price rank within its category</td>
+<td><strong>amazon_price</strong></td>
+<td>Actual price offered by Amazon at the time of scraping.</td>
 </tr>
 <tr class="odd">
-<td><code>category_rank_stars</code></td>
-<td><code>float64</code></td>
-<td>Product’s rating rank within its category</td>
+<td><strong>percentage_saving</strong></td>
+<td>Fractional discount from <code>list_price</code> to <code>amazon_price</code> (e.g., -0.20 = 20% off).</td>
 </tr>
 <tr class="even">
-<td><code>log_interaction</code></td>
-<td><code>float64</code></td>
-<td>Interaction term combining rating and review volume</td>
+<td><strong>unit_price</strong></td>
+<td>Price per standard unit of measure (e.g., per ounce).</td>
 </tr>
 <tr class="odd">
-<td><code>last_month_rank</code></td>
-<td><code>float64</code></td>
-<td>Rank of prior-month orders within the same category</td>
+<td><strong>unit</strong></td>
+<td>Standardized unit of measure (e.g., “ounce,” “fluid ounce”).</td>
 </tr>
 <tr class="even">
-<td><code>log_brand_popularity</code></td>
-<td><code>float64</code></td>
-<td>Log-transformed total orders per brand last month</td>
+<td><strong>rating</strong></td>
+<td>Average star rating of the product.</td>
 </tr>
 <tr class="odd">
-<td><code>log_review_count</code></td>
-<td><code>float64</code></td>
-<td>Log-transformed number of customer reviews</td>
+<td><strong>review_count</strong></td>
+<td>Number of consumer reviews for the product.</td>
 </tr>
 <tr class="even">
-<td><code>log_last_month_order</code></td>
-<td><code>float64</code></td>
-<td>Log-transformed order count from the prior month</td>
+<td><strong>last_month_order</strong></td>
+<td>Number of units ordered in the previous month (Amazon-provided metric).</td>
 </tr>
 <tr class="odd">
-<td><code>log_amazon_price</code></td>
-<td><code>float64</code></td>
-<td>Log-transformed Amazon sale price</td>
+<td><strong>brand</strong></td>
+<td>The product’s associated brand.</td>
 </tr>
 <tr class="even">
-<td><code>log_stars</code></td>
-<td><code>float64</code></td>
-<td>Log-transformed product star rating</td>
+<td><strong>flavor</strong></td>
+<td>Flavor of product listing.</td>
 </tr>
 <tr class="odd">
-<td><code>log_percentage_saving</code></td>
-<td><code>float64</code></td>
-<td>Log-transformed percentage discount</td>
+<td><strong>availability</strong></td>
+<td>Boolean indicating if the product was in stock at time of scrape.</td>
+</tr>
+<tr class="even">
+<td><strong>page_number</strong></td>
+<td>Page number within the Amazon search results where the product appeared.</td>
+</tr>
+<tr class="odd">
+<td><strong>product_category</strong></td>
+<td>Subcategory of the product (e.g., “Vitamin C Supplements”).</td>
+</tr>
+<tr class="even">
+<td><strong>product_order</strong></td>
+<td>Order in which the product appeared on its search results page.</td>
 </tr>
 </tbody>
 </table>
-<p>Having explored and refined our dataset, we are now equipped to develop predictive models for product_order. The next section introduces our modeling approach and evaluates its effectiveness in capturing the underlying structure of Amazon search rankings.</p>
-</section>
-</section>
-<section id="a-note-on-the-correlation" class="level2">
-<h2 class="anchored" data-anchor-id="a-note-on-the-correlation">A Note on the Correlation</h2>
-<p>Before proceeding to modeling, it is important to acknowledge the inherent difficulty in predicting <code>product_order</code> due to the high variance and weak correlations observed across most features. As illustrated in <a href="#fig-high-scatter" class="quarto-xref">Figure&nbsp;7</a>, even features with theoretically strong relevance, like <code>log_review_count</code> or <code>log_amazon_price</code>, exhibit substantial noise and dispersion when plotted against the target. This suggests that no model is likely to yield precise predictions. Despite this, the directions of feature relationships with <code>product_order</code> align with our intuition, providing some reassurance that the models are finding meaningful patterns. These challenges can reflect the complexity of working with real-world data, where noise and inconsistency are often unavoidable.</p>
-<div id="fig-high-scatter" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-high-scatter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/high_scatter.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figure&nbsp;7: Examples of high scatter within our dataset"><img src="images/high_scatter.png" class="img-fluid figure-img"></a>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-high-scatter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;7: Examples of high scatter within our dataset
+</div>
+</div>
+<div id="fig-tidy" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-tidy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/tidy_data.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;6: Cleaned and joined table with corrected data types that will be utilized for analysis."><img src="images/tidy_data.png" class="img-fluid figure-img" style="width:35.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tidy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Cleaned and joined table with corrected data types that will be utilized for analysis.
 </figcaption>
 </figure>
 </div>
 </section>
-<section id="regression" class="level2">
-<h2 class="anchored" data-anchor-id="regression">Regression</h2>
+</section>
+<section id="analysis" class="level1">
+<h1>Analysis</h1>
+<p>Understanding how product characteristics relate to search result placement is essential for building effective predictive models. This section presents our exploratory analysis of the cleaned Amazon dataset, beginning with an examination of the target variable’s distribution, followed by correlation-based investigations into feature–target relationships. We first assess the raw numerical features to identify any inherent patterns, then apply feature engineering techniques to enhance the dataset’s explanatory power. These steps provide both descriptive insights into the data and a foundation for the modeling approaches that follow.</p>
+<section id="exploratory-data-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory Data Analysis</h2>
+<p>With the cleaned dataset in place, we began by investigating the distribution of the target variable, <code>product_order</code>, which represents a product’s position in the search results. Every product in the data set is represented in the histogram. As shown in <a href="#fig-target-dist" class="quarto-xref">Figure&nbsp;7</a>, the distribution is relatively uniform with some slight peaks due to the tidying process. This suggests that the dataset does not suffer from extreme imbalance and is suitable for regression modeling.</p>
+<div id="fig-target-dist" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-target-dist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/target_dist.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figure&nbsp;7: This histogram displays the distribution of our target variable, product_order. Each subcategory has the first three pages of products collected, with each page holding up to 100 products. The dips in the distribution are due to the data tidying process alongside unequal amounts of products within each subcategory. Despite this, the distribution is mostly uniform, implying that it is fit for modeling."><img src="images/target_dist.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-target-dist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: This histogram displays the distribution of our target variable, product_order. Each subcategory has the first three pages of products collected, with each page holding up to 100 products. The dips in the distribution are due to the data tidying process alongside unequal amounts of products within each subcategory. Despite this, the distribution is mostly uniform, implying that it is fit for modeling.
+</figcaption>
+</figure>
+</div>
+<p>We then turned to bivariate analysis between <code>product_order</code> and the set of numerical features. A Pearson correlation bar chart was created to quantify linear relationships, excluding identifiers and non-numeric variables. The results are presented as a bar chart in <a href="#fig-raw-corr" class="quarto-xref">Figure&nbsp;8</a>, which displays the sorted correlation coefficients of each feature with the target variable.</p>
+<div id="fig-raw-corr" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-raw-corr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/initial_corr.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figure&nbsp;8: This bar plot shows the Pearson correlation coefficients between the raw numeric features and the target variable, product_order. All correlations are weak (absolute values below 0.3), suggesting that the raw features alone do not strongly explain variation in product ordering. This highlights the importance of feature engineering to uncover stronger relationships for modeling."><img src="images/initial_corr.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-raw-corr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: This bar plot shows the Pearson correlation coefficients between the raw numeric features and the target variable, product_order. All correlations are weak (absolute values below 0.3), suggesting that the raw features alone do not strongly explain variation in product ordering. This highlights the importance of feature engineering to uncover stronger relationships for modeling.
+</figcaption>
+</figure>
+</div>
+<p>Positive correlations indicate that as the value of the feature increases, the product tends to appear lower on the page. Conversely, negative correlations suggest that as the value of the feature increases, the product is more likely to appear higher on the page (the first product on the page has a <code>product_order</code> value equal to 1). Most features exhibited weak correlations with <code>product_order</code>, with the highest being around -0.25. However, the signs do make sense with what we would assume about the feature’s correlation with the target. This emphasizes the need for more sophisticated representations of product visibility and relevance. These insights guided our next phase of feature engineering.</p>
+</section>
+<section id="feature-engineering" class="level2">
+<h2 class="anchored" data-anchor-id="feature-engineering">Feature Engineering</h2>
+<p>The initial correlation analysis revealed that raw features alone held weak relationships with <code>product_order</code>. As such, a number of engineered features were constructed and refined to attempt to account for categorical data and interaction effects.</p>
+<p>The <code>category_rank_price</code> and <code>category_rank_orders</code> features rank products within each category based on price and recent sales volume, respectively. Specifically, <code>category_rank_price</code> ranks products by ascending price, so a lower rank indicates a cheaper product relative to others in the same category. Conversely, <code>category_rank_orders</code> ranks products by last month’s orders in descending order, where a lower rank means higher sales compared to category peers. These rankings aim to capture how price competitiveness and recent demand influence product placement. It is also a way to handle some of the skews within features.</p>
+<p>To capture consumer sentiment and engagement, the <code>positive_interaction</code> feature combines star rating and review count by multiplying them, reflecting both the perceived quality and popularity of a product. Then, <code>category_rank_positive_interaction</code> ranks products within each category based on <code>positive_interaction</code> to prioritize products with strong consumer approval. Additionally, the <code>high_quality</code> feature flags products that have a high average rating (4.5 stars or above) and a substantial number of reviews (at least 50), identifying products that are widely well-regarded.</p>
+<p>The <code>semantic_sim</code> feature was calculated using the SentenceTransformers Python package. Product titles and categories were preprocessed and passed through the <code>SentenceTransformer('all-MiniLM-L6-v2')</code> model to generate embeddings. Cosine similarity was then computed between each product’s title embedding and its category embedding, producing a score that reflects how closely the title semantically matches the category. Higher scores indicate stronger alignment.</p>
+<p>Finally, the <code>log_brand_popularity</code> feature captures brand strength by calculating the logarithm of the total orders across all products for each brand, serving as a proxy for overall brand popularity and market presence. Together, these features offer a multifaceted view of factors influencing product ranking, including pricing, sales, consumer perception, brand influence, and category relevance.</p>
+<p>Several original columns were removed from the dataset after feature engineering to reduce redundancy and focus on the derived features that capture the most relevant information. Columns such as <code>title</code>, <code>brand</code>, <code>unit</code>, <code>product_category</code>, <code>unit_price</code>, <code>list_price</code>, <code>amazon_price</code>, <code>review_count</code>, <code>last_month_order</code>, and <code>positive_interaction</code> were dropped because their information is now represented through the engineered features. This ensures that the model focuses on meaningful, standardized inputs while avoiding multicollinearity and overfitting from raw or redundant data.</p>
+<p>With the engineered features in place, including category-based ranks, interaction metrics, and semantic similarity, we can now examine <code>product_order</code>’s bivariate relationships with the numerical features, as illustrated in <a href="#fig-refined-corr" class="quarto-xref">Figure&nbsp;9</a>.</p>
+<div id="fig-refined-corr" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-refined-corr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/refined_corr.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figure&nbsp;9: Pearson correlations between engineered features and the target variable, product_order. Correlation magnitudes have increased compared to the raw feature set, though most remain moderate in strength, indicating that additional patterns may be captured through further non-linear modeling approaches."><img src="images/refined_corr.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-refined-corr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: Pearson correlations between engineered features and the target variable, product_order. Correlation magnitudes have increased compared to the raw feature set, though most remain moderate in strength, indicating that additional patterns may be captured through further non-linear modeling approaches.
+</figcaption>
+</figure>
+</div>
+<p>The updated correlation analysis with engineered features shows higher absolute correlations across nearly all variables compared to the raw feature set. Features such as <code>category_rank_positive_interaction</code> and <code>category_rank_orders</code> now exhibit moderately strong positive correlations with <code>product_order</code>, while <code>log_brand_popularity</code> shows a stronger negative relationship. These increases suggest that feature engineering successfully uncovered more meaningful relationships between product characteristics and their search result positions. However, most correlations remain below 0.4 in absolute value, indicating that linear relationships alone may not fully explain product ordering, and more complex modeling approaches could further capture non-linear or interaction effects.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Finalized Feature Definitions
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Feature</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>percentage_saving</strong></td>
+<td>Fractional discount from <code>list_price</code> to <code>amazon_price</code> (e.g., -0.20 = 20% off).</td>
+</tr>
+<tr class="even">
+<td><strong>stars</strong></td>
+<td>Average star rating of the product on Amazon at the time of scraping.</td>
+</tr>
+<tr class="odd">
+<td><strong>in_stock</strong></td>
+<td>Boolean flag indicating whether the product was available for purchase during the scrape.</td>
+</tr>
+<tr class="even">
+<td><strong>category_rank_price</strong></td>
+<td>Rank of the product’s price within its category (ascending order; 1 = lowest price).</td>
+</tr>
+<tr class="odd">
+<td><strong>category_rank_orders</strong></td>
+<td>Rank of the product’s last-month order volume within its category (descending order; 1 = most orders).</td>
+</tr>
+<tr class="even">
+<td><strong>category_rank_positive_interaction</strong></td>
+<td>Rank of the <code>positive_interaction</code> metric (stars × review_count) within its category (descending; 1 = highest).</td>
+</tr>
+<tr class="odd">
+<td><strong>high_quality</strong></td>
+<td>Boolean flag for products with ≥4.5 stars and ≥50 reviews, indicating high customer approval.</td>
+</tr>
+<tr class="even">
+<td><strong>log_brand_popularity</strong></td>
+<td>Log-transformed total order volume across all products of the same brand, representing brand strength.</td>
+</tr>
+<tr class="odd">
+<td><strong>semantic_sim</strong></td>
+<td>Cosine similarity score between the product’s title embedding and category embedding, indicating alignment between title and category.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>Having explored and refined our dataset, we are now equipped to develop predictive models for <code>product_order</code>. The next section introduces our modeling approach and evaluates its effectiveness in capturing the underlying structure of Amazon search rankings.</p>
+</section>
+</section>
+<section id="results" class="level1">
+<h1>Results</h1>
+<p>To evaluate the predictive power of our engineered features in explaining <code>product_order</code>, we applied three distinct modeling approaches: ordinary least squares (OLS) linear regression, Lasso regression with cross-validation for regularization, and a Random Forest regressor to capture non-linear relationships and interactions. All models were trained using the finalized engineered feature set, which incorporates category-based rankings, interaction metrics, brand popularity, semantic similarity, and other derived indicators of product visibility and relevance. Model performance was assessed using two key metrics: the root mean squared error (RMSE), which measures the average magnitude of prediction errors, and the coefficient of determination (R²), which quantifies the proportion of variance in <code>product_order</code> explained by the model. This combination of models and metrics provides complementary perspectives that balance interpretability, feature influence analysis, and the ability to capture more complex patterns in the data.</p>
 <section id="linear-regression" class="level3">
 <h3 class="anchored" data-anchor-id="linear-regression">Linear Regression</h3>
-<p>The linear regression model shows limited predictive power, achieving an R² of only 0.19 on the test set, meaning it explains just 19% of the variance in page number placement. The mean squared error (MSE) of 632.20 further suggests the model struggles to accurately capture the complexity of the underlying ranking algorithm used in Amazon’s search result ordering.</p>
-<p>Despite the low performance metrics, the direction and magnitude of the coefficients are largely intuitive, as seen in <a href="#fig-basic-feat" class="quarto-xref">Figure&nbsp;8</a>. For instance, <code>log_stars</code>, <code>in_stock</code>, and <code>log_interaction</code> have strong negative associations with page number, suggesting products with higher ratings, in-stock status, and greater engagement are likely to appear earlier in search results. Features like <code>log_amazon_price</code> and <code>last_month_rank</code> are positively associated, indicating a mild preference for higher-priced or previously well-performing products. While this model is not sufficient for accurate prediction, it provides interpretable insight into which features tend to correlate with better placement, which can be a useful foundation for further modeling efforts.</p>
+<p>The linear regression model produced a test RMSE of 25.27 and an R² of 0.18, indicating that the model explains only about 18% of the variance in <code>product_order</code>. While this level of explanatory power is modest, the model provides useful insights into the direction and relative magnitude of feature–target relationships. Because linear regression assumes additive, linear effects and no complex feature interactions, its primary value here lies in interpretability rather than predictive accuracy.</p>
+<p>The coefficients reveal patterns consistent with expectations. Products marked as in_stock tend to appear higher in search rankings, as indicated by the negative coefficient (-8.46), meaning being in stock is associated with an average improvement of roughly eight positions in <code>product_order</code>. Similarly, higher stars ratings are linked to better rankings (-3.79). Features such as <code>percentage_saving</code> show a positive coefficient (2.42), suggesting that the larger the discount, the higher your product will be ranked (recall <code>percentage_saving</code> values are negative). Semantic alignment between title and category (<code>semantic_sim</code>) and stronger brand presence (<code>log_brand_popularity</code>) are also negatively associated with <code>product_order</code>, indicating higher placement when these scores are higher. These results are visualized in <a href="#fig-basic-feat" class="quarto-xref">Figure&nbsp;10</a>.</p>
 <div id="fig-basic-feat" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-basic-feat-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/regression_features.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figure&nbsp;8: Linear regression model feature impacts."><img src="images/regression_features.png" class="img-fluid figure-img"></a>
+<a href="images/regression_features.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Figure&nbsp;10: Coefficients from the linear regression model estimating product_order as a function of engineered features. Negative coefficients (orange) indicate features associated with higher search result placement (lower product_order values), while positive coefficients (blue) indicate association with lower placement. The strongest influence comes from in_stock, stars, and percentage_saving, highlighting the importance of availability, customer ratings, and discounting in determining product ranking."><img src="images/regression_features.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-basic-feat-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;8: Linear regression model feature impacts.
+Figure&nbsp;10: Coefficients from the linear regression model estimating product_order as a function of engineered features. Negative coefficients (orange) indicate features associated with higher search result placement (lower product_order values), while positive coefficients (blue) indicate association with lower placement. The strongest influence comes from in_stock, stars, and percentage_saving, highlighting the importance of availability, customer ratings, and discounting in determining product ranking.
 </figcaption>
 </figure>
 </div>
+<p>While the model’s performance metrics highlight its limitations in capturing the full complexity of Amazon’s ranking algorithm, linear regression’s transparency makes it well-suited for exploratory analysis. It offers a straightforward benchmark for comparing more complex models, helps identify the most influential features, and provides interpretable coefficients that align with domain expectations.</p>
 </section>
 <section id="lasso-regression" class="level3">
 <h3 class="anchored" data-anchor-id="lasso-regression">Lasso Regression</h3>
-<p>The Lasso regression model performs similarly to the standard linear regression, with an R² of 0.1892 and a root mean squared error (RMSE) of 25.20. Although this still reflects limited predictive power, Lasso provides an added benefit by performing feature selection and basically excluding less relevant coefficients. This helps simplify the model and offers a clearer picture of which features carry the most predictive weight.</p>
-<p>Among the remaining features, <code>log_interaction</code>, <code>last_month_rank</code>, and <code>log_brand_popularity</code> were retained with meaningful coefficients, shown in <a href="#fig-lasso-feat" class="quarto-xref">Figure&nbsp;9</a>. Notably, many of the features that were moderately informative in the basic regression model (such as <code>log_stars</code>, <code>log_review_count</code>, and <code>in_stock</code>) were eliminated by the Lasso penalty. This implies that a few core features dominate what little explanatory power exists in the data, while the rest add noise. While the performance did not improve, the Lasso model offers a cleaner and more interpretable feature set for downstream modeling or analysis.</p>
+<p>The Lasso regression model was tuned with five-fold cross-validation. It produced an R² of 0.177 and an RMSE of 25.39, essentially the same as the unregularized linear regression. This indicates that the modest explanatory power is not the result of overfitting, but rather the limited ability of linear relationships to explain <code>product_order</code>.</p>
+<p>Regularization significantly altered the coefficient structure, as shown in <a href="#fig-lasso-feat" class="quarto-xref">Figure&nbsp;11</a>. Features such as <code>percentage_saving</code>, <code>stars</code>, <code>high_quality</code>, and <code>semantic_sim</code> were reduced entirely to zero, meaning the model determined they did not contribute enough predictive value to justify retaining them under the penalty. Other coefficients, like <code>in_stock</code>, <code>log_brand_popularity</code>, and the category rank features, were retained but shrunk in magnitude compared to the standard linear regression. The largest surviving effect was from <code>in_stock</code> (-3.19), though this is substantially smaller than the -8.46 observed in the unregularized model.</p>
 <div id="fig-lasso-feat" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-lasso-feat-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/lasso_features.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figure&nbsp;9: Linear regression model feature impacts."><img src="images/lasso_features.png" class="img-fluid figure-img"></a>
+<a href="images/lasso_features.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11" title="Figure&nbsp;11: Feature coefficients from the Lasso regression model predicting product_order. Regularization has shrunk several coefficients entirely to zero, indicating their limited contribution under penalization. The remaining features, especially in_stock and log_brand_popularity, retain negative coefficients, suggesting their strong influence on higher product placement (lower product_order values). This sparsity highlights Lasso’s emphasis on simpler, more stable models by penalizing weaker predictors."><img src="images/lasso_features.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lasso-feat-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;9: Linear regression model feature impacts.
+Figure&nbsp;11: Feature coefficients from the Lasso regression model predicting product_order. Regularization has shrunk several coefficients entirely to zero, indicating their limited contribution under penalization. The remaining features, especially in_stock and log_brand_popularity, retain negative coefficients, suggesting their strong influence on higher product placement (lower product_order values). This sparsity highlights Lasso’s emphasis on simpler, more stable models by penalizing weaker predictors.
 </figcaption>
 </figure>
 </div>
+<p>This shrinkage reflects Lasso’s conservative approach: by eliminating weaker predictors and dampening the influence of the rest, it produces a more stable model less sensitive to noise. However, in this case, regularization came at the cost of discarding features that might still contribute in a non-linear setting, and it did not improve predictive performance. This reinforces the idea that to improve fit, we will need models capable of capturing interactions and non-linear effects beyond what a sparse linear framework can represent.</p>
 </section>
-</section>
-<section id="classification" class="level2">
-<h2 class="anchored" data-anchor-id="classification">Classification</h2>
-<section id="random-forest-classification" class="level3">
-<h3 class="anchored" data-anchor-id="random-forest-classification">Random Forest Classification</h3>
-<p>The Random Forest Classifier was applied to predict product page numbers as a multiclass classification task in an attempt to find some predictable behavior within the dataset. The classifier achieved a test accuracy of approximately 41%. While still limited in predictive performance, the Random Forest model offers a balanced classification across all three classes. Class 1 and class 3 had similar F1 scores of 0.47, while class 2 remained more challenging to predict, with an F1 of just 0.28. Overall, the macro-averaged F1 score was 0.41, indicating that the model performs consistently but moderately across the board. The models confusion matrix is shown in <a href="#fig-rf-matrix" class="quarto-xref">Figure&nbsp;10</a></p>
-<div id="fig-rf-matrix" class="quarto-float quarto-figure quarto-figure-center anchored">
+<section id="random-forest-regression" class="level3">
+<h3 class="anchored" data-anchor-id="random-forest-regression">Random Forest Regression</h3>
+<p>The Random Forest model achieved an R² of 0.133 and an RMSE of 26.06, indicating slightly lower explanatory power and higher prediction error compared to the linear models. This suggests that while the algorithm can capture non-linear relationships and interactions among features, the current feature set still limits predictive accuracy. The drop in R² also highlights that ensemble tree methods may not outperform simpler models when the signal-to-noise ratio is low or when relevant features are missing.</p>
+<p>Feature importance rankings provide insight into how the model made its predictions, displayed in <a href="#fig-rf-feat" class="quarto-xref">Figure&nbsp;12</a>. <code>category_rank_positive_interaction</code> emerged as the most influential predictor (0.253), followed by <code>category_rank_orders</code> (0.187) and <code>semantic_sim</code> (0.146). <code>log_brand_popularity</code> (0.137) and <code>category_rank_price</code> (0.135) were also important, suggesting that brand strength, pricing position, and high interaction with the product are key drivers in predicting product placement. Variables such as <code>in_stock</code> (0.008) and <code>high_quality</code> (0.011) contributed little to the model, likely because their effects are either already captured by other correlated features or are not strongly tied to search ranking in this dataset.</p>
+<div id="fig-rf-feat" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-rf-matrix-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/rf_matrix.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Figure&nbsp;10: Random Forest Classifier Confusion Matrix"><img src="images/rf_matrix.png" class="img-fluid figure-img"></a>
+<div aria-describedby="fig-rf-feat-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/rf_feat_importance.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12" title="Figure&nbsp;12: Feature importances from the Random Forest regression model predicting product_order. The most influential predictors were category_rank_positive_interaction and category_rank_orders, followed by semantic_sim and log_brand_popularity. These results suggest that consumer interaction signals, recent product demand, and semantic alignment with category labels are key drivers of search result ranking. In contrast, binary indicators such as in_stock and high_quality had minimal impact in this non-linear model."><img src="images/rf_feat_importance.png" class="img-fluid figure-img"></a>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rf-matrix-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;10: Random Forest Classifier Confusion Matrix
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rf-feat-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;12: Feature importances from the Random Forest regression model predicting product_order. The most influential predictors were category_rank_positive_interaction and category_rank_orders, followed by semantic_sim and log_brand_popularity. These results suggest that consumer interaction signals, recent product demand, and semantic alignment with category labels are key drivers of search result ranking. In contrast, binary indicators such as in_stock and high_quality had minimal impact in this non-linear model.
 </figcaption>
 </figure>
 </div>
-<p>One of the key strengths of Random Forests is their ability to provide estimates of feature importance. In this case, the most influential features included <code>log_interaction</code>, <code>last_month_rank</code>, and <code>log_review_count</code>, all of which align with earlier findings from the Lasso regression model. Other variables like <code>log_amazon_price</code> and category-specific rank metrics also contributed meaningfully. These results reinforce the idea that while prediction remains difficult, certain signals stand out as informative, and ensemble methods like Random Forests are better equipped to capture their complex interactions.</p>
-</section>
+<p>One advantage of Random Forest is its ability to model complex, non-linear interactions without the assumptions of linear regression. However, in this case, the modest performance gain over simpler models was absent, reinforcing that feature limitations, rather than model choice, may be the primary bottleneck. Nonetheless, the importance scores provide a useful check, confirming that the most influential features align with domain expectations.</p>
 </section>
 </section>
 <section id="conclusions" class="level1">
 <h1>Conclusions</h1>
 <p>This project set out to answer the main question: What factors influence product ordering in Amazon’s Health &amp; Baby Care search results? By combining exploratory analysis, engineered features, and a suite of predictive models, we found that while some product attributes are loosely associated with placement, such as star ratings, review volume, stock availability, and recent demand, the overall predictability of product order remains limited. This confirms our initial hypothesis that Amazon’s ranking algorithm is a complex “black box,” shaped by more than just product quality or consumer preferences.</p>
-<p>Our regression analysis, beginning with linear and Lasso models, revealed that product features explain only a small portion of the variance in product_order. The best-performing linear model achieved an R² of just 0.19, and Lasso regression, while helpful in simplifying the feature set, did not significantly improve predictive performance. Notably, features like log_interaction (rating × review volume), last_month_rank, and log_brand_popularity emerged as consistently influential across models, suggesting that consumer engagement and historical demand play some role in product visibility.</p>
-<p>The Random Forest classifier provided moderate improvement over linear methods in classifying page numbers, achieving a test accuracy of 41% and reinforcing the relative importance of similar features. Yet even this non-linear ensemble approach struggled to overcome the inherent noise and complexity of the data.</p>
-<p>These results point to a key insight: Amazon’s product ranking system for Health &amp; Baby Care seems to rely on many hidden factors that we can’t observe directly. While we analyzed visible product features like ratings, reviews, price, and stock status, the low predictive power of our models suggests that other behind-the-scenes signals are driving placement, which might be advertising spend, whether a product uses Amazon’s fulfillment services, or engagement metrics Amazon doesn’t make public. This makes it difficult to fully understand how products are ranked, especially in a category where consumer trust and safety are critical.</p>
+<p>These results point to a key insight: Amazon’s product ranking system for Health &amp; Baby Care seems to rely on many hidden factors that we can’t observe directly. While we analyzed visible product features like ratings, reviews, price, and stock status, the low predictive power of our models suggests that other behind-the-scenes signals are driving placement. These may include advertising spend, whether a product is fulfilled by Amazon (e.g., through the Fulfillment by Amazon program indicated by a Prime badge), or proprietary engagement metrics that Amazon does not make public. While some of these indicators, such as fulfillment status, can occasionally be inferred from product pages, they are not consistently structured in the HTML and therefore were not systematically captured in our dataset. This makes it difficult to fully understand how products are ranked, especially in a category where consumer trust and safety are critical.</p>
 <p>Despite these challenges, our project demonstrates a practical way to study opaque ranking systems. By scraping publicly available data, carefully engineering features, and applying interpretable machine learning models, we were able to identify patterns, even if they weren’t strong enough to make highly accurate predictions. Importantly, we did find consistent signals that align with commercial popularity, such as product engagement and prior sales volume, reinforcing the idea that visibility is influenced by factors beyond just product quality.</p>
-<p>This work also lays the groundwork for future research. One promising direction is to collect more types of data, like whether a product is sponsored, what keywords it ranks for, or how users interact with it. These could improve model performance and help reveal the full logic of the algorithm. Another path involves studying Amazon’s seller tools and advertising programs to better understand how sellers influence their own visibility.</p>
-<p>In short, we didn’t crack the full code of Amazon’s algorithm, but we took a meaningful step toward understanding it. Our results show that while public data can offer important clues, full transparency is still lacking, especially in product categories where rankings can affect real health decisions. If platforms like Amazon want to earn consumer trust, clearer explanations of how rankings are determined will be essential.</p>
+<p>This work also lays the groundwork for future research. One promising direction is to collect more types of data, like whether a product is sponsored, what keywords it ranks for, or how users interact with it. For Health &amp; Baby Care in particular, incorporating independent measures of a product’s clinical effectiveness or safety, which are drawn from regulatory approvals, lab testing, or peer-reviewed studies, would allow for a focused, critical comparison between actual health benefits and the factors driving visibility. These additional features could improve model performance and help reveal whether the ranking algorithm aligns with consumer welfare.. Another path involves studying Amazon’s seller tools and advertising programs to better understand how sellers influence their own visibility.</p>
+<p>In short, we didn’t crack the full code of Amazon’s algorithm, but we took a meaningful step toward understanding it. Our results show that while public data can offer important clues, full transparency is still lacking in product categories where rankings can affect real health decisions. If platforms like Amazon want to earn consumer trust, clearer explanations of how rankings are determined will be essential.</p>
 </section>
 <section id="references" class="level1">
 <h1>References</h1>
@@ -625,6 +764,9 @@ Aslanyan, Grigor, and Utkarsh Porwal. 2019. <span>“Position Bias Estimation fo
 </div>
 <div id="ref-ftcdeception" class="csl-entry" role="listitem">
 Commission, Federal Trade. 2023. <span>“FTC Charges Supplement Marketer with Hijacking Ratings and Reviews on Amazon.com and Using Them to Deceive Consumers.”</span> <a href="https://www.ftc.gov/news-events/news/press-releases/2023/02/ftc-charges-supplement-marketer-hijacking-ratings-reviews-amazoncom-using-them-deceive-consumers">https://www.ftc.gov/news-events/news/press-releases/2023/02/ftc-charges-supplement-marketer-hijacking-ratings-reviews-amazoncom-using-them-deceive-consumers</a>.
+</div>
+<div id="ref-ftcaction" class="csl-entry" role="listitem">
+———. 2025. <span>“The Bountiful Company Refunds.”</span> <a href="https://www.ftc.gov/enforcement/refunds/bountiful-company-refunds">https://www.ftc.gov/enforcement/refunds/bountiful-company-refunds</a>.
 </div>
 <div id="ref-manomanopositionbias" class="csl-entry" role="listitem">
 Désigaud, Paul. 2024. <span>“Conquering Position Bias.”</span> <a href="https://medium.com/manomano-tech/conquering-position-bias-d64880104fd4">https://medium.com/manomano-tech/conquering-position-bias-d64880104fd4</a>.
