@@ -34,8 +34,6 @@ With the engineered features in place, including category-based ranks, interacti
 
 The updated correlation analysis with engineered features shows higher absolute correlations across nearly all variables compared to the raw feature set. Features such as `category_rank_positive_interaction` and `category_rank_orders` now exhibit moderately strong positive correlations with `product_order`, while `log_brand_popularity` shows a stronger negative relationship. These increases suggest that feature engineering successfully uncovered more meaningful relationships between product characteristics and their search result positions. However, most correlations remain below 0.4 in absolute value, indicating that linear relationships alone may not fully explain product ordering, and more complex modeling approaches could further capture non-linear or interaction effects.
 
-Having explored and refined our dataset, we are now equipped to develop predictive models for `product_order`. The next section introduces our modeling approach and evaluates its effectiveness in capturing the underlying structure of Amazon search rankings.
-
 ::: {.callout-note collapse="true"}
 ## Finalized Feature Definitions
 
