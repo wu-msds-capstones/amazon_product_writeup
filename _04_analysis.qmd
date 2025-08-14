@@ -1,0 +1,56 @@
+# Analysis
+
+Understanding how product characteristics relate to search result placement is essential for building effective predictive models. This section presents our exploratory analysis of the cleaned Amazon dataset, beginning with an examination of the target variable’s distribution, followed by correlation-based investigations into feature–target relationships. We first assess the raw numerical features to identify any inherent patterns, then apply feature engineering techniques to enhance the dataset’s explanatory power. These steps provide both descriptive insights into the data and a foundation for the modeling approaches that follow.
+
+## Exploratory Data Analysis
+
+With the cleaned dataset in place, we began by investigating the distribution of the target variable, `product_order`, which represents a product’s position in the search results. Every product in the data set is represented in the histogram. As shown in @fig-target-dist, the distribution is relatively uniform with some slight peaks due to the tidying process. This suggests that the dataset does not suffer from extreme imbalance and is suitable for regression modeling.
+
+![This histogram displays the distribution of our target variable, product_order. Each subcategory has the first three pages of products collected, with each page holding up to 100 products. The dips in the distribution are due to the data tidying process alongside unequal amounts of products within each subcategory. Despite this, the distribution is mostly uniform, implying that it is fit for modeling.](images/target_dist.png){#fig-target-dist}
+
+We then turned to bivariate analysis between `product_order` and the set of numerical features. A Pearson correlation bar chart was created to quantify linear relationships, excluding identifiers and non-numeric variables. The results are presented as a bar chart in @fig-raw-corr, which displays the sorted correlation coefficients of each feature with the target variable.
+
+![This bar plot shows the Pearson correlation coefficients between the raw numeric features and the target variable, product_order. All correlations are weak (absolute values below 0.3), suggesting that the raw features alone do not strongly explain variation in product ordering. This highlights the importance of feature engineering to uncover stronger relationships for modeling. ](images/initial_corr.png){#fig-raw-corr}
+
+Positive correlations indicate that as the value of the feature increases, the product tends to appear lower on the page. Conversely, negative correlations suggest that as the value of the feature increases, the product is more likely to appear higher on the page (the first product on the page has a `product_order` value equal to 1). Most features exhibited weak correlations with `product_order`, with the highest being around -0.25. However, the signs do make sense with what we would assume about the feature’s correlation with the target. This emphasizes the need for more sophisticated representations of product visibility and relevance. These insights guided our next phase of feature engineering.
+
+## Feature Engineering
+
+The initial correlation analysis revealed that raw features alone held weak relationships with `product_order`. As such, a number of engineered features were constructed and refined to attempt to account for categorical data and interaction effects.
+
+The `category_rank_price` and `category_rank_orders` features rank products within each category based on price and recent sales volume, respectively. Specifically, `category_rank_price` ranks products by ascending price, so a lower rank indicates a cheaper product relative to others in the same category. Conversely, `category_rank_orders` ranks products by last month’s orders in descending order, where a lower rank means higher sales compared to category peers. These rankings aim to capture how price competitiveness and recent demand influence product placement. It is also a way to handle some of the skews within features.
+
+To capture consumer sentiment and engagement, the `positive_interaction` feature combines star rating and review count by multiplying them, reflecting both the perceived quality and popularity of a product. Then, `category_rank_positive_interaction` ranks products within each category based on `positive_interaction` to prioritize products with strong consumer approval. Additionally, the `high_quality` feature flags products that have a high average rating (4.5 stars or above) and a substantial number of reviews (at least 50), identifying products that are widely well-regarded.
+
+The `semantic_sim` feature was calculated using the SentenceTransformers Python package. Product titles and categories were preprocessed and passed through the `SentenceTransformer('all-MiniLM-L6-v2')` model to generate embeddings. Cosine similarity was then computed between each product’s title embedding and its category embedding, producing a score that reflects how closely the title semantically matches the category. Higher scores indicate stronger alignment.
+
+Finally, the `log_brand_popularity` feature captures brand strength by calculating the logarithm of the total orders across all products for each brand, serving as a proxy for overall brand popularity and market presence. Together, these features offer a multifaceted view of factors influencing product ranking, including pricing, sales, consumer perception, brand influence, and category relevance.
+
+Several original columns were removed from the dataset after feature engineering to reduce redundancy and focus on the derived features that capture the most relevant information. Columns such as `title`, `brand`, `unit`, `product_category`, `unit_price`, `list_price`, `amazon_price`, `review_count`, `last_month_order`, and `positive_interaction` were dropped because their information is now represented through the engineered features. This ensures that the model focuses on meaningful, standardized inputs while avoiding multicollinearity and overfitting from raw or redundant data.
+
+With the engineered features in place, including category-based ranks, interaction metrics, and semantic similarity, we can now examine `product_order`’s bivariate relationships with the numerical features, as illustrated in @fig-refined-corr.
+
+![Pearson correlations between engineered features and the target variable, product_order. Correlation magnitudes have increased compared to the raw feature set, though most remain moderate in strength, indicating that additional patterns may be captured through further non-linear modeling approaches.](images/refined_corr.png){#fig-refined-corr}
+
+The updated correlation analysis with engineered features shows higher absolute correlations across nearly all variables compared to the raw feature set. Features such as `category_rank_positive_interaction` and `category_rank_orders` now exhibit moderately strong positive correlations with `product_order`, while `log_brand_popularity` shows a stronger negative relationship. These increases suggest that feature engineering successfully uncovered more meaningful relationships between product characteristics and their search result positions. However, most correlations remain below 0.4 in absolute value, indicating that linear relationships alone may not fully explain product ordering, and more complex modeling approaches could further capture non-linear or interaction effects.
+
+Having explored and refined our dataset, we are now equipped to develop predictive models for `product_order`. The next section introduces our modeling approach and evaluates its effectiveness in capturing the underlying structure of Amazon search rankings.
+
+::: {.callout-note collapse="true"}
+## Finalized Feature Definitions
+
+| Feature | Definition |
+|---------|------------|
+| **percentage_saving** | Fractional discount from `list_price` to `amazon_price` (e.g., -0.20 = 20% off). |
+| **stars** | Average star rating of the product on Amazon at the time of scraping. |
+| **in_stock** | Boolean flag indicating whether the product was available for purchase during the scrape. |
+| **category_rank_price** | Rank of the product’s price within its category (ascending order; 1 = lowest price). |
+| **category_rank_orders** | Rank of the product’s last-month order volume within its category (descending order; 1 = most orders). |
+| **category_rank_positive_interaction** | Rank of the `positive_interaction` metric (stars × review_count) within its category (descending; 1 = highest). |
+| **high_quality** | Boolean flag for products with ≥4.5 stars and ≥50 reviews, indicating high customer approval. |
+| **log_brand_popularity** | Log-transformed total order volume across all products of the same brand, representing brand strength. |
+| **semantic_sim** | Cosine similarity score between the product’s title embedding and category embedding, indicating alignment between title and category. |
+
+:::
+
+Having explored and refined our dataset, we are now equipped to develop predictive models for `product_order`. The next section introduces our modeling approach and evaluates its effectiveness in capturing the underlying structure of Amazon search rankings.
