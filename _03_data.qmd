@@ -43,7 +43,7 @@ Amazon structures its product information across two distinct page types in its 
 
 To overcome this, we scraped both sources separately and merged them using `product_id` as the common key. Data was collected using incognito mode to reduce personalization and preference bias that could influence rankings. The data was scraped once from the Amazon listings, and we acknowledge that product rankings on Amazon are dynamic and can change at any time; therefore, our dataset represents an informed approximation of typical rankings. This allowed us to create a unified dataset that includes both the features (product characteristics) and the target variable (`product_order`) necessary for predictive modeling. @fig-pre-joined shows the two tables before they were joined.
 
-![Raw scraped schema-on-arrival from both Amazon product pages showing the two collected tables and their 1:1 relationship via `product_id`.](images/pre_joined_data.png){#fig-pre-joined width=35%}
+![Raw scraped schema-on-arrival from both Amazon product pages showing the two collected tables and their 1:1 relationship via `product_id`.](images/pre_joined_data.png){#fig-pre-joined}
 
 Due to the state of the data after scraping, it will need extensive cleaning to prepare it for analysis, feature engineering, and modeling. We will cover this further in the [Data Tidying Section](#data-tidying).
 
@@ -53,7 +53,7 @@ To ensure data consistency and reduce redundancy, we structured our scraped Amaz
 
 This structure not only adheres to 3NF, but also enables maintainability and scalability for future expansion of more products by allowing new product lines or categories to be incorporated without altering the existing schema. This normalization ensures our project is both analytically sound and architecturally extensible. @fig-3nf displays the structure of the normalized data.
 
-![Normalized schema showing `products` referencing `brands` and `flavors` (1:N)."](images/normalized_data.png){#fig-3nf width=35%}
+![Normalized schema showing `products` referencing `brands` and `flavors` (1:N)."](images/normalized_data.png){#fig-3nf}
 
 ## Data Tidying
 
