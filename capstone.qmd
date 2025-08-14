@@ -1,9 +1,9 @@
 ---
-title: "Capstone Project"
-subtitle: Subtitle
+title: "The Price of Visibility"
+subtitle: Predicting Product Placement in Amazon’s Health & Baby Care Listings
 authors:
-  - Bob
-  - Jane
+  - Landon Waters
+  - Chloe Bui
 bibliography: references.bib
 title-block-banner: true
 format: 
@@ -15,8 +15,8 @@ format:
 
 {{< include _01_intro.qmd >}}
 {{< include _02_background.qmd >}}
-{{< include _03_methods.qmd >}}
-{{< include _04_data.qmd >}}
+{{< include _03_data.qmd >}}
+{{< include _04_analysis.qmd >}}
 {{< include _05_results.qmd >}}
 {{< include _06_conclusions.qmd >}}
 {{< include _07_references.qmd >}}

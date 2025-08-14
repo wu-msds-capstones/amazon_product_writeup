@@ -1,0 +1,94 @@
+# Data
+
+The success of our analysis depends heavily on the quality, completeness, and structure of the underlying data. This section outlines the full data pipeline from ingestion to organization and tidying, detailing how raw, unstructured product information scraped from Amazon was transformed into a clean, structured dataset ready for analysis. We begin by describing our data collection approach and the challenges inherent in scraping from dynamic web sources, followed by the logical organization of the dataset into a normalized schema to ensure consistency and reduce redundancy. Finally, we document the tidying procedures applied to standardize formats, handle missing values, and prepare features for modeling.
+
+## Data Ingestion
+
+Our project data was collected via web scraping from Amazon’s public website, focusing on 2 product lines: Health and Baby Care. Each product line has around 8-14 subcategories, representing various types of products within the broader categories. We scraped the first three pages of search results for each subcategory using Python (requests, BeautifulSoup), saving product-level details. We limited scraping to the first three pages because this approach ensured we focused on products with meaningful visibility to consumers while reducing noise from rarely viewed listings.
+
+::: {.callout-note collapse="true"}
+## Product Subcategories
+
+- Vitamin E Supplements  
+- Baby Powders  
+- Disposable Baby Diapers  
+- Multivitamins  
+- Vitamin D Supplements  
+- Diaper Disposal Bags  
+- Baby Colic & Gas Relief  
+- Children's Vitamins  
+- CoQ10 Nutritional Supplements  
+- Baby Oils  
+- Sports Nutrition Whey Protein Powders  
+- Joint & Muscle Pain Relief  
+- Vitamin C Supplements  
+- Diaper Wipes & Refills  
+- Baby Lotions  
+- Baby Sun protection  
+- Diaper Creams  
+- Baby Bubble Bath & Cleansers  
+- Baby Shampoo  
+- Nursing Pads  
+- Baby Thermometers  
+:::
+
+Amazon structures its product information across two distinct page types in its HTML, each containing only part of the data needed for analysis. The search results page (summary view), @fig-search-results, provides lightweight metadata for each product, such as `product_id` and `data_image_index`, which indicates the product’s order of appearance (i.e., its visibility or ranking on the page). However, it lacks detailed product-level attributes. On the other hand, the product detail page, @fig-product-detail, offers rich metadata for each product, including title, brand, list price, Amazon price, unit price, percentage saving, review count, rating, last month order, flavor, availability, page number, and product category, but *does not contain information about where the product was ranked on the search results page.*
+
+::: {layout="[50,50]"}
+![Product search result page (summary view)](images/search_results_page.png){#fig-search-results}
+
+![Product detail page](images/product_detail_page.png){#fig-product-detail}
+:::
+
+
+To overcome this, we scraped both sources separately and merged them using `product_id` as the common key. Data was collected using incognito mode to reduce personalization and preference bias that could influence rankings. The data was scraped once from the Amazon listings, and we acknowledge that product rankings on Amazon are dynamic and can change at any time; therefore, our dataset represents an informed approximation of typical rankings. This allowed us to create a unified dataset that includes both the features (product characteristics) and the target variable (`product_order`) necessary for predictive modeling. @fig-pre-joined shows the two tables before they were joined.
+
+![Raw scraped schema-on-arrival from both Amazon product pages showing the two collected tables and their 1:1 relationship via `product_id`.](images/pre_joined_data.png){#fig-pre-joined}
+
+Due to the state of the data after scraping, it will need extensive cleaning to prepare it for analysis, feature engineering, and modeling. We will cover this further in the [Data Tidying Section](#data-tidying).
+
+## Data Organization
+
+To ensure data consistency and reduce redundancy, we structured our scraped Amazon dataset into a fully normalized schema following Third Normal Form (3NF) principles. For future analysis, these tables will be completely joined. At the core is the products table, uniquely identified by `product_id`, which stores all the unique information pertaining to a specific product and foreign keys referencing the `brands` and `flavors` tables. These tables decompose repeated textual information into separate entities, avoiding duplication across records and enabling consistent references.
+
+This structure not only adheres to 3NF, but also enables maintainability and scalability for future expansion of more products by allowing new product lines or categories to be incorporated without altering the existing schema. This normalization ensures our project is both analytically sound and architecturally extensible. @fig-3nf displays the structure of the normalized data.
+
+![Normalized schema showing `products` referencing `brands` and `flavors` (1:N)."](images/normalized_data.png){#fig-3nf}
+
+## Data Tidying
+
+Next, moving to tidying steps where we dealt with columns containing small amounts of missing data, cast data types, and dealt with duplicate information.
+
+The first thing we did was drop missing values that accounted for a small proportion of any column (<= 5%). This should not have a significant impact on our analysis as only around 100 rows were dropped, but it makes things much simpler moving forward by avoiding NA values causing errors.
+
+We then standardize data types for numerical columns by converting price strings into floats, strip currency symbols, convert percentage strings into decimal fractions, parse review counts into integers, and extract numeric ratings from text-based star ratings. We also split the `unit_price` column into two fields: `unit` and numeric `unit_price`. The `unit` column now uses standardized unit abbreviations (like “oz” to “ounce”). The `last_month_order` field is converted to an integer, interpreting shorthand like “K” for thousands, and availability is transformed into a Boolean flag (`in_stock`).
+
+Next, we handle missing data. For `last_month_order`, missing values are imputed using a KNN (k-nearest neighbors) approach, chosen for its ability to use similar products’ attributes to estimate missing values without imposing strict parametric assumptions. We leveraged related variables like `amazon_price`, `stars`, and `review_count` to estimate plausible values. This involves scaling the numeric features for imputation, running the KNNImputer, and then inverse-scaling to restore original units. We also apply logical fill rules. For instance, if `amazon_price` is missing, it is set equal to `list_price`, and if there is no list price but also no savings, it infers that `list_price` equals `amazon_price`.  If a product has no `percentage_saving`, it is set to zero. Missing `brand` entries are labeled “unknown,” missing `unit` entries get “no_unit,” and missing `unit_price` values are set to zero.
+
+Finally, we cleaned up the dataset by removing duplicate rows, dropping obsolete or unnecessary columns that were unused in modeling (like `flavor`, `rating`, `availability`, `product_id`, and `review`), and standardizing `product_category` to lowercase with underscores instead of spaces. The result, shown in @fig-tidy, is a dataset with consistent data types, minimal missingness, and ready-to-use numerical and categorical fields suitable for downstream modeling or analysis. 
+
+::: {.callout-note collapse="true"}
+## Finalized Variable Definitions
+
+| Variable | Definition |
+|----------|------------|
+| **product_id** | Unique identifier for each product. |
+| **title** | Full product title as displayed on the product detail page. |
+| **list_price** | Manufacturer’s suggested retail price (MSRP) shown on Amazon. |
+| **amazon_price** | Actual price offered by Amazon at the time of scraping. |
+| **percentage_saving** | Fractional discount from `list_price` to `amazon_price` (e.g., -0.20 = 20% off). |
+| **unit_price** | Price per standard unit of measure (e.g., per ounce). |
+| **unit** | Standardized unit of measure (e.g., “ounce,” “fluid ounce”). |
+| **rating** | Average star rating of the product. |
+| **review_count** | Number of consumer reviews for the product. |
+| **last_month_order** | Number of units ordered in the previous month (Amazon-provided metric). |
+| **brand** | The product’s associated brand. |
+| **flavor** | Flavor of product listing. |
+| **availability** | Boolean indicating if the product was in stock at time of scrape. |
+| **page_number** | Page number within the Amazon search results where the product appeared. |
+| **product_category** | Subcategory of the product (e.g., “Vitamin C Supplements”). |
+| **product_order** | Order in which the product appeared on its search results page. |
+
+:::
+
+![Cleaned and joined table with corrected data types that will be utilized for analysis.](images/tidy_data.png){#fig-tidy width=35%}
